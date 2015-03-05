@@ -5,7 +5,11 @@ Created by using Qt5 and VK API.
 
 It has user-friendly interface and very beautiful design.
 
-### Required access
+### Build Requirements
+-  Qt 5.4.*
+-  FontAwesome
+
+### Access
 -  Audio files
 -  Anytime (for playing audio while offline)
 
@@ -16,13 +20,13 @@ It has user-friendly interface and very beautiful design.
 -  Repeat modes
 
 ### Screenshots
-![alt tag](http://www.imageupload.co.uk/images/2015/03/05/start_pagec1397.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/05/start_page1a6ef.png)
 
-![alt tag](http://www.imageupload.co.uk/images/2015/03/05/signing_in6676e.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/05/sign_in.png)
 
-![alt tag](http://www.imageupload.co.uk/images/2015/03/05/searchc2b3b.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/05/search2be69.png)
 
-![alt tag](http://www.imageupload.co.uk/images/2015/03/05/repeat_and_volume70f40.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/05/repeat_and_volumecff6f.png)
 
 ### Feedback
 - dikanchukov@mail.ru 

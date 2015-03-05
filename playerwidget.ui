@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="icons.qrc">
-    <normaloff>:/music.png</normaloff>:/music.png</iconset>
+    <normaloff>:/logo.png</normaloff>:/logo.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QFrame { background-color: rgb(232, 232, 232); }

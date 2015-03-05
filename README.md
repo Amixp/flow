@@ -1,21 +1,20 @@
 # Flow
-Приложение для прослушивания аудиофайлов сервиса ВКонтакте.
+Application for listening audio files on vk.com (Vkontakte)
 
-Реализован посредством Qt5 и VK API.
+Created by using Qt5 and VK API.
 
-Обладает простым, красивым и удобным интерфейсом.
+It has user-friendly interface and very beautiful design.
 
-## Требуемый доступ приложения:
--  Авторизация
--  Аудиофайлы
--  Доступ в любое время (для воспроизведения при статусе оффлайн)
+### Required access
+-  Audio files
+-  Anytime (for playing audio while offline)
 
-## Основные возможности:
--  Поиск 
--  Загрузка
--  Воспроизведение в случайном порядке
--  Режимы повтора
+### Features
+-  Searching
+-  Downloading
+-  Shuffling
+-  Repeat modes
 
-## Обратная связь:
+### Feedback
 - dikanchukov@mail.ru 
 - http://vk.com/decent_will

@@ -158,6 +158,9 @@
             <property name="maximum">
              <number>0</number>
             </property>
+            <property name="pageStep">
+             <number>1</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -507,6 +510,9 @@
          <widget class="MouseDirectJumpSlider" name="volumeSlider">
           <property name="maximum">
            <number>100</number>
+          </property>
+          <property name="pageStep">
+           <number>1</number>
           </property>
           <property name="value">
            <number>100</number>

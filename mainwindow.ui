@@ -205,7 +205,7 @@
        <string notr="true">color: rgb(160, 160, 160);</string>
       </property>
       <property name="text">
-       <string>Created by human for people</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Created by &lt;a href=&quot;http://vk.com/decent_will&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;human&lt;/span&gt;&lt;/a&gt; for &lt;a href=&quot;https://github.com/adikanchukov/flow&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;people&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

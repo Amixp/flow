@@ -37,6 +37,7 @@ protected:
 
             event->accept();
         }
+
         QSlider::mousePressEvent(event);
     }
 };

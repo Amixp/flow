@@ -7,7 +7,7 @@ It has user-friendly interface and very beautiful design.
 
 ### Build Requirements
 -  Qt 5.4.*
--  FontAwesome
+-  [FontAwesome] (http://fortawesome.github.io/Font-Awesome/)
 
 ### Access
 -  Audio files

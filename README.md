@@ -20,13 +20,11 @@ It has user-friendly interface and very beautiful design.
 -  Repeat modes
 
 ### Screenshots
-![alt tag](http://www.imageupload.co.uk/images/2015/03/05/start_page1a6ef.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/06/start_page.png)
 
 ![alt tag](http://www.imageupload.co.uk/images/2015/03/05/sign_in.png)
 
-![alt tag](http://www.imageupload.co.uk/images/2015/03/05/search2be69.png)
-
-![alt tag](http://www.imageupload.co.uk/images/2015/03/05/repeat_and_volumecff6f.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/06/player.png)
 
 ### Feedback
 - dikanchukov@mail.ru 

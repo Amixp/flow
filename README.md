@@ -5,8 +5,11 @@ Created by using Qt5 and VK API.
 
 It has user-friendly interface and very beautiful design.
 
+### Status
+Testing before first release
+
 ### Build Requirements
--  Qt 5.4 with WebEngine support
+-  Qt 5.4 with WebEngine support 
 
 ### Access
 -  Audio files
@@ -24,9 +27,9 @@ It has user-friendly interface and very beautiful design.
 
 ![alt tag](http://www.imageupload.co.uk/images/2015/03/05/sign_in.png)
 
-![alt tag](http://www.imageupload.co.uk/images/2015/03/06/playerbe517.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/06/player72318.png)
 
-![alt tag](http://www.imageupload.co.uk/images/2015/03/06/player_minimal.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/06/player_mini.png)
 
 ### Feedback
 - dikanchukov@mail.ru 

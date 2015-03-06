@@ -51,6 +51,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
 
     initializePlaylistHeaders();
     ui->playlistTableView->setModel(model_);
+    ui->playlistTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     connect(api_, &ApiComponent::playlistReceived, this, &PlayerWidget::setPlaylist);
     connect(api_, &ApiComponent::downloadCompleted, this, &PlayerWidget::replyFinishedDownload);

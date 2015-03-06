@@ -18,6 +18,7 @@ It has user-friendly interface and very beautiful design.
 -  Downloading
 -  Shuffling
 -  Repeat modes
+-  Suggested and popular playlists
 
 ### Screenshots
 ![alt tag](http://www.imageupload.co.uk/images/2015/03/06/start_page.png)

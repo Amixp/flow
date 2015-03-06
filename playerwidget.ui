@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>562</width>
+    <width>967</width>
     <height>441</height>
    </rect>
   </property>
@@ -454,7 +454,7 @@
         <item>
          <widget class="QPushButton" name="myMusicButton">
           <property name="text">
-           <string>Music</string>
+           <string>My music</string>
           </property>
           <property name="checkable">
            <bool>true</bool>

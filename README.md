@@ -6,7 +6,7 @@ Created by using Qt5 and VK API.
 It has user-friendly interface and very beautiful design.
 
 ### Build Requirements
--  Qt 5.4.*
+-  Qt 5.4 with WebEngine support
 
 ### Access
 -  Audio files

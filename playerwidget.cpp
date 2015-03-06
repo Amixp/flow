@@ -389,6 +389,7 @@ void PlayerWidget::on_playlistButton_toggled(bool checked)
 {
     if (checked)
     {
+        stillCurrentPlaylist_ = true;
         ui->playlistTableView->setModel(media_->model());
         ui->playlistTableView->selectRow(media_->playlist()->currentIndex());
     }

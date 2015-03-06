@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
-    <height>673</height>
+    <width>562</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="font">
@@ -62,12 +62,6 @@
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QPushButton" name="titleButton">
-            <property name="font">
-             <font>
-              <family>Ubuntu Mono</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="text">
              <string>Loading playlist ...</string>
             </property>
@@ -95,7 +89,6 @@
              <widget class="QLabel" name="timeLabel">
               <property name="font">
                <font>
-                <family>Ubuntu Mono</family>
                 <pointsize>8</pointsize>
                </font>
               </property>
@@ -308,17 +301,20 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="homeButton">
+         <widget class="QPushButton" name="playlistButton">
           <property name="font">
            <font>
             <family>FontAwesome</family>
            </font>
           </property>
           <property name="toolTip">
-           <string>Home</string>
+           <string>Playlist</string>
           </property>
           <property name="text">
-           <string></string>
+           <string></string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -454,6 +450,154 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="myMusicButton">
+          <property name="text">
+           <string>Music</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="suggestedButton">
+          <property name="text">
+           <string>Suggested</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="popularButton">
+          <property name="text">
+           <string>Popular</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="genreComboBox">
+          <item>
+           <property name="text">
+            <string>Rock</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Pop</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Rap &amp; Hip-hop</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Easy Listening</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Dance &amp; House</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Instrumental</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Metal</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Alternative</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Dubstep</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Jazz &amp; Blues</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Drum &amp; Bass</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Trance</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chanson</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Ethnic</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Acoustic &amp; Vocal</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Reggae</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Classical</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Indie Pop</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Speech</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Electropop &amp; Disco</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Other</string>
+           </property>
+          </item>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="repeatSingleButton">

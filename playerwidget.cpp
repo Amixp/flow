@@ -22,6 +22,13 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
 
     ui->volumeSlider->setVisible(false);
 
+    QButtonGroup *playlistGroup = new QButtonGroup(this);
+    playlistGroup->addButton(ui->myMusicButton);
+    playlistGroup->addButton(ui->suggestedButton);
+    playlistGroup->addButton(ui->popularButton);
+    setPlaylistGroupButtonsVisibility(false);
+    connect(ui->playlistButton, &QPushButton::toggled, playlistGroup, &QButtonGroup::setExclusive);
+
     QButtonGroup *repeatGroup = new QButtonGroup(this);
     repeatGroup->addButton(ui->repeatSingleButton);
     repeatGroup->addButton(ui->repeatAllButton);
@@ -32,6 +39,12 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     searchGroup->addButton(ui->byArtistButton);
     connect(searchGroup, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(trySearch(QAbstractButton*)));
     setSearchFormVisible(false);
+
+    QButtonGroup *controlGroup = new QButtonGroup(this);
+    controlGroup->addButton(ui->playlistButton);
+    controlGroup->addButton(ui->searchButton);
+    controlGroup->addButton(ui->volumeButton);
+    controlGroup->addButton(ui->repeatButton);
 
     connect(repeatGroup, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(repeatModeChanged(QAbstractButton*)));
     setRepeatGroupButtonsVisibility(false);
@@ -50,14 +63,20 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(ui->startSearchingButton, &QPushButton::clicked, this, &PlayerWidget::search);
     connect(ui->searchEdit, &QLineEdit::returnPressed, this, &PlayerWidget::search);
 
-    connect(ui->homeButton, &QPushButton::clicked, api_, &ApiComponent::requestAuthUserPlaylist);
+    connect(ui->myMusicButton, &QPushButton::clicked, api_, &ApiComponent::requestAuthUserPlaylist);
+    connect(ui->suggestedButton, &QPushButton::clicked, api_, &ApiComponent::requestSuggestedPlaylist);
+    connect(ui->popularButton, &QPushButton::clicked, this, &PlayerWidget::requestPopular);
+    connect(ui->popularButton, &QPushButton::toggled, ui->genreComboBox, &QComboBox::setVisible);
+    connect(ui->genreComboBox, &QComboBox::currentTextChanged, this, &PlayerWidget::requestedPopularByGenre);
+    connect(this, &PlayerWidget::requestedPopularByGenre, api_, &ApiComponent::requestPopularPlaylistByGenre);
 
-    connect(ui->volumeButton, &QPushButton::clicked, ui->volumeSlider, &QSlider::setVisible);
+    connect(ui->volumeButton, &QPushButton::toggled, ui->volumeSlider, &QSlider::setVisible);
     connect(ui->volumeSlider, &QSlider::sliderMoved, this, &PlayerWidget::changeVolume);
     connect(ui->timeSlider, &QSlider::sliderMoved, this, &PlayerWidget::seek);
 
-    connect(ui->repeatButton, &QPushButton::clicked, this, &PlayerWidget::setRepeatGroupButtonsVisibility);
-    connect(ui->searchButton, &QPushButton::clicked, this, &PlayerWidget::setSearchFormVisible);
+    connect(ui->playlistButton, &QPushButton::toggled, this, &PlayerWidget::setPlaylistGroupButtonsVisibility);
+    connect(ui->repeatButton, &QPushButton::toggled, this, &PlayerWidget::setRepeatGroupButtonsVisibility);
+    connect(ui->searchButton, &QPushButton::toggled, this, &PlayerWidget::setSearchFormVisible);
     connect(ui->titleButton, &QPushButton::clicked, this, &PlayerWidget::selectCurrentPlayItem);
 
     connect(media_->playlist(), &QMediaPlaylist::currentIndexChanged, this, &PlayerWidget::currentPlayItemChanged);
@@ -106,6 +125,13 @@ void PlayerWidget::addItemToPlaylist(const ApiComponent::PlaylistItem &item)
     model_->setItem(rowCount, ApiComponent::Duration, new QStandardItem(convertSecondsToTimeString(duration)));
 
     emit playlistItemAdded(QUrl(item[ApiComponent::Url]));
+}
+
+void PlayerWidget::resetPlaylistGroupCheckState()
+{
+    ui->myMusicButton->setChecked(false);
+    ui->suggestedButton->setChecked(false);
+    ui->popularButton->setChecked(false);
 }
 
 QString PlayerWidget::convertSecondsToTimeString(int seconds)
@@ -284,6 +310,18 @@ void PlayerWidget::setRepeatGroupButtonsVisibility(bool visible)
     ui->repeatOffButton->setVisible(visible);
 }
 
+void PlayerWidget::setPlaylistGroupButtonsVisibility(bool visible)
+{
+    ui->myMusicButton->setVisible(visible);
+    ui->suggestedButton->setVisible(visible);
+    ui->popularButton->setVisible(visible);
+
+    if (visible && ui->popularButton->isChecked())
+        ui->genreComboBox->setVisible(true);
+    else
+        ui->genreComboBox->setVisible(false);
+}
+
 void PlayerWidget::repeatModeChanged(QAbstractButton *button)
 {
     if (button == ui->repeatSingleButton)
@@ -336,8 +374,15 @@ void PlayerWidget::setSearchFormVisible(bool visible)
 
 void PlayerWidget::search()
 {
+    resetPlaylistGroupCheckState();
     ApiComponent::SearchQuery query;
     query.artist = ui->byArtistButton->isChecked() ? true : false;
     query.text = ui->searchEdit->text();
     api_->requestPlaylistBySearchQuery(query);
+}
+
+void PlayerWidget::requestPopular(bool checked)
+{
+    if(checked)
+        emit requestedPopularByGenre(ui->genreComboBox->currentText());
 }

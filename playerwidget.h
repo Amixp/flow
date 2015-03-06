@@ -81,6 +81,8 @@ private slots:
 
     void search();
 
+    void requestPopular(bool checked);
+
     void replyFinishedDownload(QNetworkReply * reply);
 
 
@@ -100,12 +102,16 @@ private slots:
 
     void setRepeatGroupButtonsVisibility(bool visible);
 
+    void setPlaylistGroupButtonsVisibility(bool visible);
+
 signals:
     void playlistCleared();
 
     void startedPlaying(int index);
 
     void playlistItemAdded(const QUrl& url);
+
+    void requestedPopularByGenre(const QString& genre);
 
 private:
     void initializePlaylistHeaders();
@@ -116,6 +122,9 @@ private:
     void clearPlaylist();
 
     void addItemToPlaylist(const ApiComponent::PlaylistItem& item);
+
+
+    void resetPlaylistGroupCheckState();
 
 
     QString getVolumeIcon(int value);

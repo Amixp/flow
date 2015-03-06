@@ -4,6 +4,7 @@
 
 ApiComponent::ApiComponent(QObject *parent) : QObject(parent)
 {
+    initializeGenresMap();
 }
 
 void ApiComponent::setOAuthTokens(const ApiComponent::OAuthTokensMap &tokens)
@@ -86,6 +87,31 @@ void ApiComponent::getPlaylistFromReply(QNetworkReply *reply)
     emit playlistReceived(playlist);
 }
 
+void ApiComponent::initializeGenresMap()
+{
+    genres["Rock"] = Rock;
+    genres["Pop"] = Pop;
+    genres["Rap & Hip-hop"] = RapAndHipHop;
+    genres["Easy Listening"] = EasyListening;
+    genres["Dance & House"] = DanceAndHouse;
+    genres["Instrumental"] = Instrumental;
+    genres["Metal"] = Metal;
+    genres["Alternative"] = Alternative;
+    genres["Dubstep"] = Dubstep;
+    genres["Jazz & Blues"] = JazzAndBlues;
+    genres["Drum & Bass"] = DrumAndBass;
+    genres["Trance"] = Trance;
+    genres["Chanson"] = Chanson;
+    genres["Ethnic"] = Ethnic;
+    genres["Acoustic & Vocal"] = AcousticAndVocal;
+    genres["Reggae"] = Reggae;
+    genres["Classical"] = Classical;
+    genres["Indie Pop"] = IndiePop;
+    genres["Speech"] = Speech;
+    genres["Electropop & Disco"] = ElectropopAndDisco;
+    genres["Other"] = Other;
+}
+
 void ApiComponent::requestAuthUserPlaylist()
 {
     Q_ASSERT(tokens_.contains(UserId));
@@ -94,6 +120,27 @@ void ApiComponent::requestAuthUserPlaylist()
     connect(networkManager, &QNetworkAccessManager::finished, this, &ApiComponent::getPlaylistFromReply);
     QNetworkRequest request("https://api.vk.com/method/audio.get.xml?uid=" +
                             tokens_[UserId] + "&access_token=" + tokens_[AccessToken]);
+
+    QNetworkReply *reply = networkManager->get(request);
+}
+
+void ApiComponent::requestSuggestedPlaylist()
+{
+    QNetworkAccessManager * networkManager = new QNetworkAccessManager(this);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &ApiComponent::getPlaylistFromReply);
+    QNetworkRequest request("https://api.vk.com/method/audio.getRecommendations.xml?uid=" +
+                            tokens_[UserId] + "&access_token=" + tokens_[AccessToken] + "&count=500");
+
+    QNetworkReply *reply = networkManager->get(request);
+}
+
+void ApiComponent::requestPopularPlaylistByGenre(const QString &genre)
+{
+    QNetworkAccessManager * networkManager = new QNetworkAccessManager(this);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &ApiComponent::getPlaylistFromReply);
+    QNetworkRequest request("https://api.vk.com/method/audio.getPopular.xml?uid=" +
+                            tokens_[UserId] + "&access_token=" + tokens_[AccessToken] +
+                            + "&genre_id=" + QString::number(genres[genre]) + "&count=500");
 
     QNetworkReply *reply = networkManager->get(request);
 }

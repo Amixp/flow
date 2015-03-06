@@ -29,3 +29,4 @@ It has user-friendly interface and very beautiful design.
 ### Feedback
 - dikanchukov@mail.ru 
 - http://vk.com/decent_will
+- http://qt-apps.org/content/show.php/Flow?content=169117

@@ -7,7 +7,6 @@ It has user-friendly interface and very beautiful design.
 
 ### Build Requirements
 -  Qt 5.4.*
--  [FontAwesome] (http://fortawesome.github.io/Font-Awesome/)
 
 ### Access
 -  Audio files
@@ -25,7 +24,9 @@ It has user-friendly interface and very beautiful design.
 
 ![alt tag](http://www.imageupload.co.uk/images/2015/03/05/sign_in.png)
 
-![alt tag](http://www.imageupload.co.uk/images/2015/03/06/player.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/06/playerbe517.png)
+
+![alt tag](http://www.imageupload.co.uk/images/2015/03/06/player_minimal.png)
 
 ### Feedback
 - dikanchukov@mail.ru 

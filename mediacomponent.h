@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QStandardItemModel>
 
 class MediaComponent : public QObject
 {
@@ -13,6 +14,9 @@ public:
 
     void setPlayer(QMediaPlayer *player);
     void setPlaylist(QMediaPlaylist *playlist);
+
+    void copyModel(QStandardItemModel *model);
+    void copyPlaylist(QMediaPlaylist *playlist);
 
     QMediaPlayer * player() const;
     QMediaPlaylist * playlist() const;
@@ -50,6 +54,7 @@ private:
     QMediaPlayer *player_;
     QMediaPlaylist *playlist_;
     qint64 duration_;
+    QStandardItemModel *model_;
 };
 
 #endif // MEDIACOMPONENT_H

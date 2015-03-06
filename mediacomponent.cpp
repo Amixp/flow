@@ -1,11 +1,15 @@
 #include "mediacomponent.h"
 
 MediaComponent::MediaComponent(QObject *parent) : QObject(parent), player_(new QMediaPlayer(this)),
-    playlist_(new QMediaPlaylist(this)), duration_(0)
+    playlist_(new QMediaPlaylist(this)), duration_(0), model_(new QStandardItemModel(this))
 {
     player_->setPlaylist(playlist_);
     setVolume(100);
     setPlaybackMode(QMediaPlaylist::Sequential);
+
+    QStringList headers;
+    headers << "Artist" << "Title" << "Duration";
+    model_->setHorizontalHeaderLabels(headers);
 
     connect(player_, &QMediaPlayer::durationChanged, this, &MediaComponent::setDuration);
 }
@@ -22,6 +26,29 @@ void MediaComponent::setPlaylist(QMediaPlaylist *playlist)
     playlist_ = playlist;
     player_->setPlaylist(playlist);
 }
+
+void MediaComponent::copyModel(QStandardItemModel *model)
+{
+    Q_ASSERT(model);
+
+    model_->removeRows(0, model_->rowCount());
+
+    for (int i = 0 ; i < model->rowCount() ; i++)
+        for(int j = 0; j < model->columnCount(); ++j)
+            model_->setItem(i, j, model->item(i, j)->clone());
+}
+
+void MediaComponent::copyPlaylist(QMediaPlaylist *playlist)
+{
+    Q_ASSERT(playlist);
+
+    playlist_->clear();
+
+    for (int i = 0; i < playlist->mediaCount(); ++i)
+        playlist_->addMedia(playlist->media(i));
+}
+
+
 
 QMediaPlayer*  MediaComponent::player() const
 {

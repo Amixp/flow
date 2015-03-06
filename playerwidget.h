@@ -88,9 +88,9 @@ private slots:
 
     void on_shuffleButton_clicked(bool checked);
 
-    void on_nextButton_clicked();
+    void on_forwardButton_clicked();
 
-    void on_previousButton_clicked();
+    void on_rewindButton_clicked();
 
     void on_downloadButton_clicked();
 
@@ -127,7 +127,7 @@ private:
     void resetPlaylistGroupCheckState();
 
 
-    QString getVolumeIcon(int value);
+    QIcon getVolumeIcon(int value);
 
     QString convertSecondsToTimeString(int seconds);
 

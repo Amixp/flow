@@ -36,7 +36,7 @@ void MainWindow::on_signInButton_clicked()
 {
     hide();
     authWeb_->setWindowTitle("Flow Application Signing In");
-    authWeb_->setWindowIcon(QIcon(":/vkontakte.jpg"));
+    authWeb_->setWindowIcon(QIcon(":/icons/vkontakte.png"));
     connect(authWeb_, &QWebEngineView::urlChanged, api_, &ApiComponent::getTokensFromUrl);
     authWeb_->load(QUrl("https://oauth.vk.com/authorize?client_id=" + APP_ID + "&scope=" + PERMISSIONS +
                         "&redirect_uri=" + REDIRECT_URI + "&display=" + DISPLAY + "&v=" + API_VERSION +

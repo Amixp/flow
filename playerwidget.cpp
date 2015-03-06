@@ -199,7 +199,7 @@ void PlayerWidget::seek(int seconds)
 
 void PlayerWidget::volumeChanged(int value)
 {
-    ui->volumeButton->setText(getVolumeIcon(value) + QString::number(value));
+    ui->volumeButton->setIcon(getVolumeIcon(value));
 
     if(!ui->volumeSlider->isSliderDown())
         ui->volumeSlider->setValue(value);
@@ -207,7 +207,7 @@ void PlayerWidget::volumeChanged(int value)
 
 void PlayerWidget::changeVolume(int volume)
 {
-    ui->volumeButton->setText(getVolumeIcon(volume) + QString::number(volume));
+    ui->volumeButton->setIcon(getVolumeIcon(volume));
     media_->setVolume(volume);
 }
 
@@ -217,16 +217,17 @@ void PlayerWidget::trySearch(QAbstractButton */* button */)
         search();
 }
 
-QString PlayerWidget::getVolumeIcon(int value)
+QIcon PlayerWidget::getVolumeIcon(int value)
 {
-    QString result = " ";
-
     if (value == 0)
-        result = " ";
-    else if (value < 50)
-        result = " ";
-
-    return result;
+        return QIcon(":/icons/volumeoff.png");
+    else if (value > 0 && value < 50)
+        return QIcon(":/icons/volume25.png");
+    else if (value >= 50 && value < 75)
+        return QIcon(":/icons/volume50.png");
+    else if (value >= 75)
+        return QIcon(":/icons/volume75.png");
+    else return QIcon(":/icons/volumeoff.png");
 }
 
 void PlayerWidget::initializePlaylistHeaders()
@@ -294,12 +295,12 @@ void PlayerWidget::stateChanged(QMediaPlayer::State state)
 {
     if(state == QMediaPlayer::PlayingState)
     {
-        ui->playPauseButton->setText("");
+        ui->playPauseButton->setIcon(QIcon(":/icons/pause.png"));
         ui->playPauseButton->setToolTip("Pause");
     }
     else if (state == QMediaPlayer::PausedState || state ==QMediaPlayer::StoppedState)
     {
-        ui->playPauseButton->setText("");
+        ui->playPauseButton->setIcon(QIcon(":/icons/play.png"));
         ui->playPauseButton->setToolTip("Play");
     }
 }
@@ -341,12 +342,12 @@ void PlayerWidget::on_shuffleButton_clicked(bool checked)
         repeatModeChanged(repeatMode_);
 }
 
-void PlayerWidget::on_nextButton_clicked()
+void PlayerWidget::on_forwardButton_clicked()
 {
     media_->next();
 }
 
-void PlayerWidget::on_previousButton_clicked()
+void PlayerWidget::on_rewindButton_clicked()
 {
     media_->previous();
 }

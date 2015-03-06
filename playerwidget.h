@@ -102,7 +102,7 @@ private slots:
 
     void setRepeatGroupButtonsVisibility(bool visible);
 
-    void setPlaylistGroupButtonsVisibility(bool visible);
+    void setMusicGroupButtonsVisibility(bool visible);
 
 signals:
     void playlistCleared();
@@ -124,7 +124,7 @@ private:
     void addItemToPlaylist(const ApiComponent::PlaylistItem& item);
 
 
-    void resetPlaylistGroupCheckState();
+    void resetMusicGroupCheckState();
 
 
     QIcon getVolumeIcon(int value);

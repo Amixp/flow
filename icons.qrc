@@ -16,5 +16,6 @@
         <file>icons/volume75.png</file>
         <file>icons/volumeoff.png</file>
         <file>icons/start_searching.png</file>
+        <file>icons/music.png</file>
     </qresource>
 </RCC>

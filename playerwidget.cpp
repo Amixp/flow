@@ -22,12 +22,12 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
 
     ui->volumeSlider->setVisible(false);
 
-    QButtonGroup *playlistGroup = new QButtonGroup(this);
-    playlistGroup->addButton(ui->myMusicButton);
-    playlistGroup->addButton(ui->suggestedButton);
-    playlistGroup->addButton(ui->popularButton);
-    setPlaylistGroupButtonsVisibility(true);
-    connect(ui->playlistButton, &QPushButton::toggled, playlistGroup, &QButtonGroup::setExclusive);
+    QButtonGroup *musicGroup = new QButtonGroup(this);
+    musicGroup->addButton(ui->myMusicButton);
+    musicGroup->addButton(ui->suggestedButton);
+    musicGroup->addButton(ui->popularButton);
+    setMusicGroupButtonsVisibility(true);
+    connect(ui->musicButton, &QPushButton::toggled, musicGroup, &QButtonGroup::setExclusive);
 
     QButtonGroup *repeatGroup = new QButtonGroup(this);
     repeatGroup->addButton(ui->repeatSingleButton);
@@ -41,7 +41,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     setSearchFormVisible(false);
 
     QButtonGroup *controlGroup = new QButtonGroup(this);
-    controlGroup->addButton(ui->playlistButton);
+    controlGroup->addButton(ui->musicButton);
     controlGroup->addButton(ui->searchButton);
     controlGroup->addButton(ui->volumeButton);
     controlGroup->addButton(ui->repeatButton);
@@ -72,7 +72,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(ui->volumeSlider, &QSlider::sliderMoved, this, &PlayerWidget::changeVolume);
     connect(ui->timeSlider, &QSlider::sliderMoved, this, &PlayerWidget::seek);
 
-    connect(ui->playlistButton, &QPushButton::toggled, this, &PlayerWidget::setPlaylistGroupButtonsVisibility);
+    connect(ui->musicButton, &QPushButton::toggled, this, &PlayerWidget::setMusicGroupButtonsVisibility);
     connect(ui->repeatButton, &QPushButton::toggled, this, &PlayerWidget::setRepeatGroupButtonsVisibility);
     connect(ui->searchButton, &QPushButton::toggled, this, &PlayerWidget::setSearchFormVisible);
     connect(ui->titleButton, &QPushButton::clicked, this, &PlayerWidget::selectCurrentPlayItem);
@@ -126,7 +126,7 @@ void PlayerWidget::addItemToPlaylist(const ApiComponent::PlaylistItem &item)
     emit playlistItemAdded(QUrl(item[ApiComponent::Url]));
 }
 
-void PlayerWidget::resetPlaylistGroupCheckState()
+void PlayerWidget::resetMusicGroupCheckState()
 {
     ui->myMusicButton->setChecked(false);
     ui->suggestedButton->setChecked(false);
@@ -304,7 +304,7 @@ void PlayerWidget::setRepeatGroupButtonsVisibility(bool visible)
     ui->repeatOffButton->setVisible(visible);
 }
 
-void PlayerWidget::setPlaylistGroupButtonsVisibility(bool visible)
+void PlayerWidget::setMusicGroupButtonsVisibility(bool visible)
 {
     ui->myMusicButton->setVisible(visible);
     ui->suggestedButton->setVisible(visible);
@@ -368,7 +368,7 @@ void PlayerWidget::setSearchFormVisible(bool visible)
 
 void PlayerWidget::search()
 {
-    resetPlaylistGroupCheckState();
+    resetMusicGroupCheckState();
     ApiComponent::SearchQuery query;
     query.artist = ui->byArtistButton->isChecked() ? true : false;
     query.text = ui->searchEdit->text();

@@ -87,6 +87,8 @@ private slots:
 private:
     void initializeGenresMap();
 
+    void sendPlaylistRequest(const QString& request);
+
     OAuthTokensMap tokens_;
     GenresMap genres;
 };

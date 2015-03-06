@@ -38,11 +38,9 @@ void ApiComponent::getTokensFromUrl(const QUrl& url)
         int const s_access = urlString.indexOf('=', 0) + 1;
         int const s_expires_in = urlString.indexOf('=', s_access) + 1;
         int const s_userid = urlString.indexOf('=', s_expires_in) + 1;
-
         int const e_access = urlString.indexOf('&', 0) + 1;
         int const e_expires_in = urlString.indexOf('&', e_access) + 1;
         int const e_userid = -1;
-
         tokens_[AccessToken] = urlString.mid(s_access, e_access - s_access - 1);
         tokens_[ExpiresIn] = urlString.mid(s_expires_in, e_expires_in - s_expires_in - 1);
         tokens_[UserId] = urlString.mid(s_userid, e_userid);
@@ -112,47 +110,41 @@ void ApiComponent::initializeGenresMap()
     genres["Other"] = Other;
 }
 
+void ApiComponent::sendPlaylistRequest(const QString &request)
+{
+    QNetworkAccessManager * networkManager = new QNetworkAccessManager(this);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &ApiComponent::getPlaylistFromReply);
+    QNetworkRequest networkRequest(request);
+
+    QNetworkReply *reply = networkManager->get(networkRequest);
+}
+
 void ApiComponent::requestAuthUserPlaylist()
 {
     Q_ASSERT(tokens_.contains(UserId));
 
-    QNetworkAccessManager * networkManager = new QNetworkAccessManager(this);
-    connect(networkManager, &QNetworkAccessManager::finished, this, &ApiComponent::getPlaylistFromReply);
-    QNetworkRequest request("https://api.vk.com/method/audio.get.xml?uid=" +
-                            tokens_[UserId] + "&access_token=" + tokens_[AccessToken]);
+    sendPlaylistRequest("https://api.vk.com/method/audio.get.xml?uid=" + tokens_[UserId]
+                        + "&access_token=" + tokens_[AccessToken]);
 
-    QNetworkReply *reply = networkManager->get(request);
 }
 
 void ApiComponent::requestSuggestedPlaylist()
 {
-    QNetworkAccessManager * networkManager = new QNetworkAccessManager(this);
-    connect(networkManager, &QNetworkAccessManager::finished, this, &ApiComponent::getPlaylistFromReply);
-    QNetworkRequest request("https://api.vk.com/method/audio.getRecommendations.xml?uid=" +
-                            tokens_[UserId] + "&access_token=" + tokens_[AccessToken] + "&count=500");
-
-    QNetworkReply *reply = networkManager->get(request);
+    sendPlaylistRequest("https://api.vk.com/method/audio.getRecommendations.xml?uid=" +
+                        tokens_[UserId] + "&access_token=" + tokens_[AccessToken] + "&count=500");
 }
 
 void ApiComponent::requestPopularPlaylistByGenre(const QString &genre)
 {
-    QNetworkAccessManager * networkManager = new QNetworkAccessManager(this);
-    connect(networkManager, &QNetworkAccessManager::finished, this, &ApiComponent::getPlaylistFromReply);
-    QNetworkRequest request("https://api.vk.com/method/audio.getPopular.xml?uid=" +
-                            tokens_[UserId] + "&access_token=" + tokens_[AccessToken] +
-                            + "&genre_id=" + QString::number(genres[genre]) + "&count=500");
-
-    QNetworkReply *reply = networkManager->get(request);
+    sendPlaylistRequest("https://api.vk.com/method/audio.getPopular.xml?uid=" +
+                        tokens_[UserId] + "&access_token=" + tokens_[AccessToken] +
+                        + "&genre_id=" + QString::number(genres[genre]) + "&count=500");
 }
 
 void ApiComponent::requestPlaylistBySearchQuery(const ApiComponent::SearchQuery &query)
 {
-    QNetworkAccessManager * networkManager = new QNetworkAccessManager(this);
-    connect(networkManager, &QNetworkAccessManager::finished, this, &ApiComponent::getPlaylistFromReply);
-    QNetworkRequest request("https://api.vk.com/method/audio.search.xml?uid=" +
-                            tokens_[UserId] + "&access_token=" + tokens_[AccessToken] +
-                             "&performer_only=" + QString::number(query.artist) +
-                            "&q=" + query.text + "&count=300");
-
-    QNetworkReply *reply = networkManager->get(request);
+    sendPlaylistRequest("https://api.vk.com/method/audio.search.xml?uid=" +
+                        tokens_[UserId] + "&access_token=" + tokens_[AccessToken] +
+                        "&performer_only=" + QString::number(query.artist) +
+                        "&q=" + query.text + "&count=300");
 }

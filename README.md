@@ -5,9 +5,6 @@ Created by using Qt5 and VK API.
 
 It has user-friendly interface and very beautiful design.
 
-### Status
-Testing before first release
-
 ### Build Requirements
 -  Qt 5.4 with WebEngine support 
 

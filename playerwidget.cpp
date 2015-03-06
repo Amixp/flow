@@ -26,7 +26,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     playlistGroup->addButton(ui->myMusicButton);
     playlistGroup->addButton(ui->suggestedButton);
     playlistGroup->addButton(ui->popularButton);
-    setPlaylistGroupButtonsVisibility(false);
+    setPlaylistGroupButtonsVisibility(true);
     connect(ui->playlistButton, &QPushButton::toggled, playlistGroup, &QButtonGroup::setExclusive);
 
     QButtonGroup *repeatGroup = new QButtonGroup(this);

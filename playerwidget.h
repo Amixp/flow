@@ -69,7 +69,7 @@ private slots:
 
     void selectCurrentPlayItem();
 
-    void play(const QModelIndex& index);
+    void playIndex(const QModelIndex& index);
 
     void updatePositionInfo(qint64 progress);
 

@@ -56,10 +56,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(api_, &ApiComponent::playlistReceived, this, &PlayerWidget::setPlaylist);
     connect(api_, &ApiComponent::downloadCompleted, this, &PlayerWidget::replyFinishedDownload);
     connect(this, &PlayerWidget::playlistCleared, media_, &MediaComponent::clearPlaylist);
-    connect(this, &PlayerWidget::startedPlaying, media_, &MediaComponent::playIndex);
     connect(this, &PlayerWidget::playlistItemAdded, media_, &MediaComponent::addItemToPlaylist);
-
-    connect(ui->playlistTableView, &QTableView::doubleClicked, this, &PlayerWidget::play);
 
     connect(ui->startSearchingButton, &QPushButton::clicked, this, &PlayerWidget::search);
     connect(ui->searchEdit, &QLineEdit::returnPressed, this, &PlayerWidget::search);
@@ -80,8 +77,9 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(ui->searchButton, &QPushButton::toggled, this, &PlayerWidget::setSearchFormVisible);
     connect(ui->titleButton, &QPushButton::clicked, this, &PlayerWidget::selectCurrentPlayItem);
 
+    connect(ui->playlistTableView, &QTableView::doubleClicked, this, &PlayerWidget::playIndex);
+    connect(this, &PlayerWidget::startedPlaying, media_, &MediaComponent::playIndex);
     connect(media_->playlist(), &QMediaPlaylist::currentIndexChanged, this, &PlayerWidget::currentPlayItemChanged);
-
     connect(media_->player(), &QMediaPlayer::durationChanged, this, &PlayerWidget::durationChanged);
     connect(media_->player(), &QMediaPlayer::positionChanged, this, &PlayerWidget::positionChanged);
     connect(media_->player(), &QMediaPlayer::volumeChanged, this, &PlayerWidget::volumeChanged);
@@ -142,17 +140,9 @@ QString PlayerWidget::convertSecondsToTimeString(int seconds)
     return time.toString(format);
 }
 
-void PlayerWidget::play(const QModelIndex &index)
+void PlayerWidget::playIndex(const QModelIndex &index)
 {
-    int const row = index.row();
-    QString const artist = model_->item(row, ApiComponent::Artist)->text();
-    QString const title = model_->item(row, ApiComponent::Title)->text();
-    QString const fullTitle = title + " by " + artist;
-    setPlayItemTitle(fullTitle);
-
-    ui->searchEdit->setText(artist);
-
-    int const currentIndex = row;
+    int const currentIndex = index.row();
     emit startedPlaying(currentIndex);
 }
 
@@ -169,6 +159,8 @@ void PlayerWidget::currentPlayItemChanged(int position)
     ui->playlistTableView->selectRow(position);
     QString const fullTitle = title + " by " + artist;
     setPlayItemTitle(fullTitle);
+    QString const searchText = ui->byArtistButton->isChecked() ? artist : title;
+    ui->searchEdit->setText(searchText);
 }
 
 void PlayerWidget::durationChanged(qint64 duration)

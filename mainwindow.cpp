@@ -5,6 +5,7 @@
 #include "mediacomponent.h"
 #include "playerwidget.h"
 
+#include <QDesktopWidget>
 #include <QMessageBox>
 
 const QString APP_ID = "4809611";
@@ -37,11 +38,19 @@ void MainWindow::on_signInButton_clicked()
     hide();
     authWeb_->setWindowTitle("Flow Application Signing In");
     authWeb_->setWindowIcon(QIcon(":/icons/vkontakte.png"));
+
     connect(authWeb_, &QWebEngineView::urlChanged, api_, &ApiComponent::getTokensFromUrl);
     authWeb_->load(QUrl("https://oauth.vk.com/authorize?client_id=" + APP_ID + "&scope=" + PERMISSIONS +
                         "&redirect_uri=" + REDIRECT_URI + "&display=" + DISPLAY + "&v=" + API_VERSION +
                         "&revoke=" + REVOKE + "&response_type=token"));
     authWeb_->show();
+    authWeb_->setGeometry(
+                QStyle::alignedRect(
+                    Qt::LeftToRight,
+                    Qt::AlignCenter,
+                    authWeb_->size(),
+                    qApp->desktop()->availableGeometry()
+                    ));
 }
 
 void MainWindow::processAuthResult(bool result, const QString &error)
@@ -51,6 +60,13 @@ void MainWindow::processAuthResult(bool result, const QString &error)
     if (result)
     {
         api_->requestAuthUserPlaylist();
+        player_->setGeometry(
+                    QStyle::alignedRect(
+                        Qt::LeftToRight,
+                        Qt::AlignCenter,
+                        player_->size(),
+                        qApp->desktop()->availableGeometry()
+                        ));
         player_->show();
     }
     else

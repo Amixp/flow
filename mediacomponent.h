@@ -20,6 +20,7 @@ public:
 
     QMediaPlayer * player() const;
     QMediaPlaylist * playlist() const;
+    QStandardItemModel * model() const;
 
     qint64 duration() const;
 

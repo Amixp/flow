@@ -48,8 +48,6 @@ void MediaComponent::copyPlaylist(QMediaPlaylist *playlist)
         playlist_->addMedia(playlist->media(i));
 }
 
-
-
 QMediaPlayer*  MediaComponent::player() const
 {
     return player_;
@@ -58,6 +56,11 @@ QMediaPlayer*  MediaComponent::player() const
 QMediaPlaylist* MediaComponent::playlist() const
 {
     return playlist_;
+}
+
+QStandardItemModel *MediaComponent::model() const
+{
+    return model_;
 }
 
 qint64 MediaComponent::duration() const

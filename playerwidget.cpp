@@ -10,8 +10,8 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     QWidget(parent),
     ui(new Ui::PlayerWidget),
     api_(api), media_(media),
-    model_(new QStandardItemModel(this)),
-    repeatMode_(NULL)
+    model_(new QStandardItemModel(this)), playlist_(new QMediaPlaylist(this)),
+    repeatMode_(NULL), stillCurrentPlaylist_(false)
 {
     Q_ASSERT(media);
     Q_ASSERT(api);
@@ -26,7 +26,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     musicGroup->addButton(ui->myMusicButton);
     musicGroup->addButton(ui->suggestedButton);
     musicGroup->addButton(ui->popularButton);
-    setMusicGroupButtonsVisibility(false);
+    setMusicGroupButtonsVisibility(true);
     connect(ui->musicButton, &QPushButton::toggled, musicGroup, &QButtonGroup::setExclusive);
 
     QButtonGroup *repeatGroup = new QButtonGroup(this);
@@ -92,37 +92,31 @@ PlayerWidget::~PlayerWidget()
 
 void PlayerWidget::setPlaylist(const ApiComponent::Playlist& playlist)
 {
-    clearPlaylist();
+    stillCurrentPlaylist_ = false;
+
+    clear();
 
     foreach (const ApiComponent::PlaylistItem& item, playlist)
-        addItemToPlaylist(item);
-
-    if (media_->playlist()->isEmpty())
-        setPlayItemTitle("Playlist is empty");
-    else
-        setPlayItemTitle("");
+        addItem(item);
 }
 
-void PlayerWidget::clearPlaylist()
+void PlayerWidget::clear()
 {
-    model_->clear();
-    initializePlaylistHeaders();
-
-    emit playlistCleared();
+    model_->removeRows(0, model_->rowCount());
+    playlist_->clear();
 }
 
-void PlayerWidget::addItemToPlaylist(const ApiComponent::PlaylistItem &item)
+void PlayerWidget::addItem(const ApiComponent::PlaylistItem &item)
 {
     int const rowCount = model_->rowCount();
     model_->insertRow(rowCount);
 
     model_->setItem(rowCount, ApiComponent::Artist, new QStandardItem(item[ApiComponent::Artist]));
     model_->setItem(rowCount, ApiComponent::Title, new QStandardItem(item[ApiComponent::Title]));
+    model_->setItem(rowCount, ApiComponent::Duration,
+                    new QStandardItem(convertSecondsToTimeString(item[ApiComponent::Duration].toInt())));
 
-    int const duration = item[ApiComponent::Duration].toInt();
-    model_->setItem(rowCount, ApiComponent::Duration, new QStandardItem(convertSecondsToTimeString(duration)));
-
-    emit playlistItemAdded(QUrl(item[ApiComponent::Url]));
+    playlist_->addMedia(QUrl(item[ApiComponent::Url]));
 }
 
 void PlayerWidget::resetMusicGroupCheckState()
@@ -141,6 +135,13 @@ QString PlayerWidget::convertSecondsToTimeString(int seconds)
 
 void PlayerWidget::playIndex(const QModelIndex &index)
 {
+    if (!stillCurrentPlaylist_)
+    {
+        media_->copyModel(model_);
+        media_->copyPlaylist(playlist_);
+        stillCurrentPlaylist_ = true;
+    }
+
     int const currentIndex = index.row();
     emit startedPlaying(currentIndex);
 }
@@ -153,9 +154,12 @@ void PlayerWidget::setPlayItemTitle(const QString& title)
 
 void PlayerWidget::currentPlayItemChanged(int position)
 {
-    QString const artist = model_->item(position, ApiComponent::Artist)->text();
-    QString const title = model_->item(position, ApiComponent::Title)->text();
-    ui->playlistTableView->selectRow(position);
+    QString const artist = media_->model()->item(position, ApiComponent::Artist)->text();
+    QString const title = media_->model()->item(position, ApiComponent::Title)->text();
+
+    if (stillCurrentPlaylist_)
+        ui->playlistTableView->selectRow(position);
+
     QString const fullTitle = title + " by " + artist;
     setPlayItemTitle(fullTitle);
     QString const searchText = ui->byArtistButton->isChecked() ? artist : title;
@@ -236,7 +240,7 @@ void PlayerWidget::on_downloadButton_clicked()
     if(!selectedRows.isEmpty())
     {
         int const index = model_->itemFromIndex(selectedRows.at(0))->row();
-        api_->downloadPlaylistItemByUrl(media_->url(index));
+        api_->downloadPlaylistItemByUrl(playlist_->media(index).canonicalUrl());
         ui->playlistTableView->setSelectionMode(QTableView::NoSelection);
     }
 }
@@ -345,6 +349,7 @@ void PlayerWidget::on_rewindButton_clicked()
 
 void PlayerWidget::selectCurrentPlayItem()
 {
+    ui->playlistButton->setChecked(true);
     ui->playlistTableView->clearSelection();
     int const currentIndex = media_->playlist()->currentIndex();
     if (currentIndex != -1)
@@ -378,4 +383,15 @@ void PlayerWidget::requestPopular(bool checked)
 {
     if(checked)
         emit requestedPopularByGenre(ui->genreComboBox->currentText());
+}
+
+void PlayerWidget::on_playlistButton_toggled(bool checked)
+{
+    if (checked)
+    {
+        ui->playlistTableView->setModel(media_->model());
+        ui->playlistTableView->selectRow(media_->playlist()->currentIndex());
+    }
+    else
+        ui->playlistTableView->setModel(model_);
 }

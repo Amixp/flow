@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>967</width>
-    <height>715</height>
+    <width>976</width>
+    <height>703</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,7 +63,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Loading playlist ...</string>
+             <string/>
             </property>
             <property name="flat">
              <bool>true</bool>
@@ -312,7 +312,7 @@
         <item>
          <widget class="QPushButton" name="playlistButton">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="toolTip">
            <string>Playlist</string>
@@ -334,7 +334,7 @@
            <bool>true</bool>
           </property>
           <property name="checked">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -363,7 +363,7 @@
            <bool>true</bool>
           </property>
           <property name="checked">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -562,7 +562,7 @@
            <bool>true</bool>
           </property>
           <property name="checked">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="flat">
            <bool>true</bool>

@@ -104,6 +104,8 @@ private slots:
 
     void setMusicGroupButtonsVisibility(bool visible);
 
+    void on_playlistButton_toggled(bool checked);
+
 signals:
     void playlistCleared();
 
@@ -119,9 +121,9 @@ private:
 
     void setPlayItemTitle(const QString& title);
 
-    void clearPlaylist();
+    void clear();
 
-    void addItemToPlaylist(const ApiComponent::PlaylistItem& item);
+    void addItem(const ApiComponent::PlaylistItem& item);
 
 
     void resetMusicGroupCheckState();
@@ -136,7 +138,9 @@ private:
     ApiComponent *api_;
     MediaComponent *media_;
     QStandardItemModel *model_;
+    QMediaPlaylist *playlist_;
     QPushButton *repeatMode_;
+    bool stillCurrentPlaylist_;
 };
 
 #endif // PLAYER_H

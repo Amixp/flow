@@ -176,10 +176,16 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QFrame" name="frame_2">
+      <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+       <widget class="QFrame" name="playFrame">
         <property name="styleSheet">
          <string notr="true">QFrame { background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #F2EEED, stop:1 #E9E9E9); }</string>
         </property>
@@ -493,7 +499,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
      <zorder>searchEdit</zorder>
      <zorder>horizontalSpacer_3</zorder>
      <zorder>searchButton</zorder>
-     <zorder>frame_2</zorder>
+     <zorder>playFrame</zorder>
     </widget>
    </item>
    <item>
@@ -754,14 +760,6 @@ background-color: #F6F6F6;
     </widget>
    </item>
   </layout>
-  <zorder>controlFrame</zorder>
-  <zorder>musicFrame</zorder>
-  <zorder>playlistTableView</zorder>
-  <zorder></zorder>
-  <zorder>titleButton</zorder>
-  <zorder></zorder>
-  <zorder></zorder>
-  <zorder>artistLabel</zorder>
  </widget>
  <customwidgets>
   <customwidget>

@@ -9,12 +9,6 @@
         <file>icons/search.png</file>
         <file>icons/shuffle.png</file>
         <file>icons/vkontakte.png</file>
-        <file>icons/volume25.png</file>
-        <file>icons/volume50.png</file>
-        <file>icons/volume75.png</file>
-        <file>icons/volumeoff.png</file>
-        <file>icons/start_searching.png</file>
-        <file>icons/music.png</file>
         <file>icons/playlist.png</file>
     </qresource>
 </RCC>

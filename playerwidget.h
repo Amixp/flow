@@ -62,9 +62,9 @@ private slots:
 
     void stateChanged(QMediaPlayer::State state);
 
-    void repeatModeChanged(QAbstractButton* button);
-
     void currentPlayItemChanged(int position);
+
+    void repeatModeChanged(QAction *action);
 
 
     void selectCurrentPlayItem();
@@ -77,11 +77,11 @@ private slots:
 
     void changeVolume(int volume);
 
-    void trySearch(QAbstractButton *button);
-
     void search();
 
     void requestPopular(bool checked);
+
+    void requestPopular(const QString&);
 
 
     void on_shuffleButton_clicked(bool checked);
@@ -92,13 +92,6 @@ private slots:
 
     void on_playPauseButton_clicked();
 
-
-
-    void setSearchFormVisible(bool visible);
-
-    void setRepeatGroupButtonsVisibility(bool visible);
-
-    void setMusicGroupButtonsVisibility(bool visible);
 
     void on_playlistButton_toggled(bool checked);
 
@@ -112,23 +105,15 @@ signals:
     void requestedPopularByGenre(const QString& genre);
 
 private:
-    void initializePlaylistHeaders();
 
-
-    void setPlayItemTitle(const QString& title);
+    void setPlayItemStatusText(const QString& title, const QString& artist);
 
     void clear();
 
     void addItem(const ApiComponent::PlaylistItem& item);
 
 
-    void resetMusicGroupCheckState();
-
-
-    QIcon getVolumeIcon(int value);
-
     QString convertSecondsToTimeString(int seconds);
-
 
     Ui::PlayerWidget *ui;
     ApiComponent *api_;

@@ -7,10 +7,6 @@ MediaComponent::MediaComponent(QObject *parent) : QObject(parent), player_(new Q
     setVolume(100);
     setPlaybackMode(QMediaPlaylist::Sequential);
 
-    QStringList headers;
-    headers << "Artist" << "Title" << "Duration";
-    model_->setHorizontalHeaderLabels(headers);
-
     connect(player_, &QMediaPlayer::durationChanged, this, &MediaComponent::setDuration);
 }
 

@@ -461,7 +461,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
          <widget class="QLineEdit" name="searchEdit">
           <property name="minimumSize">
            <size>
-            <width>184</width>
+            <width>183</width>
             <height>0</height>
            </size>
           </property>

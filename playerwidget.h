@@ -83,16 +83,12 @@ private slots:
 
     void requestPopular(bool checked);
 
-    void replyFinishedDownload(QNetworkReply * reply);
-
 
     void on_shuffleButton_clicked(bool checked);
 
     void on_forwardButton_clicked();
 
     void on_rewindButton_clicked();
-
-    void on_downloadButton_clicked();
 
     void on_playPauseButton_clicked();
 

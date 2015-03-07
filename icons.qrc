@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/download.png</file>
         <file>icons/forward.png</file>
         <file>icons/logo.png</file>
         <file>icons/pause.png</file>

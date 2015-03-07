@@ -53,7 +53,6 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     ui->playlistTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     connect(api_, &ApiComponent::playlistReceived, this, &PlayerWidget::setPlaylist);
-    connect(api_, &ApiComponent::downloadCompleted, this, &PlayerWidget::replyFinishedDownload);
     connect(this, &PlayerWidget::playlistCleared, media_, &MediaComponent::clearPlaylist);
     connect(this, &PlayerWidget::playlistItemAdded, media_, &MediaComponent::addItemToPlaylist);
 
@@ -237,49 +236,6 @@ void PlayerWidget::initializePlaylistHeaders()
     headers << "Artist" << "Title" << "Duration";
     model_->setHorizontalHeaderLabels(headers);
     ui->playlistTableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-}
-
-void PlayerWidget::on_downloadButton_clicked()
-{
-    QModelIndexList selectedRows = ui->playlistTableView->selectionModel()->selectedRows();
-
-    if(!selectedRows.isEmpty())
-    {
-        int const index = model_->itemFromIndex(selectedRows.at(0))->row();
-        api_->downloadPlaylistItemByUrl(playlist_->media(index).canonicalUrl());
-        ui->playlistTableView->setSelectionMode(QTableView::NoSelection);
-    }
-}
-
-void PlayerWidget::replyFinishedDownload(QNetworkReply *reply)
-{
-    if (reply->error())
-        QMessageBox::critical(this, "Flow Downloading Error", reply->errorString(), QMessageBox::Ok);
-    else
-    {
-        QString const directory = QFileDialog::getExistingDirectory(this, "Save audio in", QDir::homePath());
-        if (!directory.isEmpty())
-        {
-            int const currentRow = model_->itemFromIndex(ui->playlistTableView->selectionModel()->selectedRows().at(0))->row();
-            QString const filename = directory + "/" + model_->item(currentRow, ApiComponent::Artist)->text() +
-                    "-" + model_->item(currentRow, ApiComponent::Title)->text() + ".mp3";
-
-            QFile file(filename);
-            if (file.open(QIODevice::ReadWrite))
-            {
-                file.write(reply->readAll());
-                file.flush();
-                file.close();
-
-                QMessageBox::information(this, "Flow Downloading Complete", "File " + filename + " was saved successfully!");
-            }
-            else
-                QMessageBox::critical(this, "Flow Saving File Error", file.errorString(), QMessageBox::Ok);
-        }
-    }
-
-    reply->deleteLater();
-    ui->playlistTableView->setSelectionMode(QTableView::SingleSelection);
 }
 
 void PlayerWidget::on_playPauseButton_clicked()

@@ -17,14 +17,6 @@ const ApiComponent::OAuthTokensMap& ApiComponent::tokens() const
     return tokens_;
 }
 
-void ApiComponent::downloadPlaylistItemByUrl(const QUrl &url)
-{
-    QNetworkAccessManager * manager = new QNetworkAccessManager(this);
-    connect(manager, &QNetworkAccessManager::finished, this, &ApiComponent::downloadCompleted);
-    manager->get(QNetworkRequest(url));
-}
-
-
 void ApiComponent::getTokensFromUrl(const QUrl& url)
 {
     QString const urlString = url.toString();

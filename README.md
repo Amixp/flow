@@ -14,7 +14,6 @@ It has user-friendly interface and very beautiful design.
 
 ### Features
 -  Searching
--  Downloading
 -  Shuffling
 -  Repeat modes
 -  Suggested and popular playlists

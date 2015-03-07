@@ -40,10 +40,12 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(searchGroup, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(trySearch(QAbstractButton*)));
     setSearchFormVisible(false);
 
-    QButtonGroup *playlistGroup = new QButtonGroup(this);
-    playlistGroup->addButton(ui->playlistButton);
-    playlistGroup->addButton(ui->musicButton);
-    playlistGroup->addButton(ui->searchButton);
+    QButtonGroup *controlGroup = new QButtonGroup(this);
+    controlGroup->addButton(ui->playlistButton);
+    controlGroup->addButton(ui->musicButton);
+    controlGroup->addButton(ui->searchButton);
+    controlGroup->addButton(ui->volumeButton);
+    controlGroup->addButton(ui->repeatButton);
 
     connect(repeatGroup, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(repeatModeChanged(QAbstractButton*)));
     setRepeatGroupButtonsVisibility(false);

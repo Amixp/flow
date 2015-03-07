@@ -740,13 +740,6 @@
          </widget>
         </item>
         <item>
-         <widget class="Line" name="line_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="repeatSingleButton">
           <property name="toolTip">
            <string/>

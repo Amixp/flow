@@ -4,7 +4,6 @@
         <file>icons/logo.png</file>
         <file>icons/pause.png</file>
         <file>icons/play.png</file>
-        <file>icons/playlist.png</file>
         <file>icons/repeat.png</file>
         <file>icons/rewind.png</file>
         <file>icons/search.png</file>
@@ -16,5 +15,6 @@
         <file>icons/volumeoff.png</file>
         <file>icons/start_searching.png</file>
         <file>icons/music.png</file>
+        <file>icons/playlist.png</file>
     </qresource>
 </RCC>

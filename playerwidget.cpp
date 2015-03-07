@@ -154,6 +154,12 @@ void PlayerWidget::setPlayItemTitle(const QString& title)
 
 void PlayerWidget::currentPlayItemChanged(int position)
 {
+    if (position == -1)
+    {
+        media_->pause();
+        return;
+    }
+
     QString const artist = media_->model()->item(position, ApiComponent::Artist)->text();
     QString const title = media_->model()->item(position, ApiComponent::Title)->text();
 

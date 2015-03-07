@@ -41,8 +41,6 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
 
     connect(repeatGroup, &QActionGroup::triggered, this, &PlayerWidget::repeatModeChanged);
 
-    connect(ui->searchComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(search()));
-
     ui->playlistTableView->setModel(model_);
     ui->playlistTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->playlistTableView->horizontalHeader()->setVisible(false);
@@ -62,8 +60,6 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
 
     connect(ui->volumeSlider, &QSlider::sliderMoved, this, &PlayerWidget::changeVolume);
     connect(ui->timeSlider, &QSlider::sliderMoved, this, &PlayerWidget::seek);
-
-    connect(ui->titleButton, &QPushButton::clicked, this, &PlayerWidget::selectCurrentPlayItem);
 
     connect(ui->playlistTableView, &QTableView::doubleClicked, this, &PlayerWidget::playIndex);
     connect(this, &PlayerWidget::startedPlaying, media_, &MediaComponent::playIndex);
@@ -132,7 +128,7 @@ void PlayerWidget::playIndex(const QModelIndex &index)
 void PlayerWidget::setPlayItemStatusText(const QString& title, const QString& artist)
 {
     ui->titleButton->setText(title);
-    ui->artistLabel->setText(artist);
+    ui->artistButton->setText(artist);
     setWindowTitle(title + " by " + artist + " - " + "Flow");
 }
 
@@ -151,12 +147,11 @@ void PlayerWidget::currentPlayItemChanged(int position)
         ui->playlistTableView->selectRow(position);
 
     setPlayItemStatusText(title, artist);
-    QString const searchText = ui->searchComboBox->currentText() == "by artist" ? artist : title;
-    ui->searchEdit->setText(searchText);
 }
 
 void PlayerWidget::repeatModeChanged(QAction *action)
 {
+    ui->shuffleButton->setChecked(false);
     QString const repeatMode = action->text();
     if (repeatMode == "Repeat Single")
         media_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
@@ -247,23 +242,15 @@ void PlayerWidget::on_rewindButton_clicked()
     media_->previous();
 }
 
-void PlayerWidget::selectCurrentPlayItem()
-{
-    ui->playlistButton->setChecked(true);
-    ui->playlistTableView->clearSelection();
-    int const currentIndex = media_->playlist()->currentIndex();
-    if (currentIndex != -1)
-        ui->playlistTableView->selectRow(currentIndex);
-}
-
 void PlayerWidget::search()
 {
+    QPushButton *sender = qobject_cast<QPushButton*>(QObject::sender());
     ui->searchButton->setChecked(true);
     QString const searchText = ui->searchEdit->text();
     if (!searchText.isEmpty())
     {
         ApiComponent::SearchQuery query;
-        query.artist = ui->searchComboBox->currentText() == "by artist" ? true : false;
+        query.artist = (sender && (sender == ui->artistButton)) ? true : false;
         query.text = searchText;
         api_->requestPlaylistBySearchQuery(query);
     }
@@ -291,4 +278,16 @@ void PlayerWidget::on_playlistButton_toggled(bool checked)
     }
     else
         ui->playlistTableView->setModel(model_);
+}
+
+void PlayerWidget::on_titleButton_clicked()
+{
+    ui->searchEdit->setText(ui->titleButton->text());
+    search();
+}
+
+void PlayerWidget::on_artistButton_clicked()
+{
+    ui->searchEdit->setText(ui->artistButton->text());
+    search();
 }

@@ -67,8 +67,6 @@ private slots:
     void repeatModeChanged(QAction *action);
 
 
-    void selectCurrentPlayItem();
-
     void playIndex(const QModelIndex& index);
 
     void updatePositionInfo(qint64 progress);
@@ -94,6 +92,10 @@ private slots:
 
 
     void on_playlistButton_toggled(bool checked);
+
+    void on_titleButton_clicked();
+
+    void on_artistButton_clicked();
 
 signals:
     void playlistCleared();

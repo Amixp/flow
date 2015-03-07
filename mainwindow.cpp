@@ -36,7 +36,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_signInButton_clicked()
 {
     hide();
-    authWeb_->setWindowTitle("Flow Application Signing In");
+    authWeb_->setWindowTitle("Sign In");
     authWeb_->setWindowIcon(QIcon(":/icons/vkontakte.png"));
 
     connect(authWeb_, &QWebEngineView::urlChanged, api_, &ApiComponent::getTokensFromUrl);

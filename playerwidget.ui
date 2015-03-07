@@ -176,12 +176,6 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
        </spacer>
       </item>
       <item>
@@ -316,7 +310,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="artistLabel">
+                <widget class="QPushButton" name="artistButton">
                  <property name="font">
                   <font>
                    <pointsize>8</pointsize>
@@ -325,8 +319,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                  <property name="text">
                   <string/>
                  </property>
-                 <property name="alignment">
-                  <set>Qt::AlignHCenter|Qt::AlignTop</set>
+                 <property name="flat">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -452,23 +446,6 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
        </spacer>
       </item>
       <item>
-       <widget class="QComboBox" name="searchComboBox">
-        <property name="styleSheet">
-         <string notr="true">text-align: center;</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>by artist</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>by title</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
        <widget class="QLineEdit" name="searchEdit">
         <property name="minimumSize">
          <size>
@@ -515,7 +492,6 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
      <zorder>horizontalSpacer_4</zorder>
      <zorder>searchEdit</zorder>
      <zorder>horizontalSpacer_3</zorder>
-     <zorder>searchComboBox</zorder>
      <zorder>searchButton</zorder>
      <zorder>frame_2</zorder>
     </widget>

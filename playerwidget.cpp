@@ -331,6 +331,7 @@ void PlayerWidget::setSearchFormVisible(bool visible)
     {
         ui->searchEdit->selectAll();
         ui->searchEdit->setFocus();
+        trySearch(NULL);
     }
 }
 

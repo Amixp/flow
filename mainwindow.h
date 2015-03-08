@@ -12,6 +12,8 @@ namespace Ui {
 class MainWindow;
 }
 
+void setWidgetOnCenterScreen(QWidget *widget);
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

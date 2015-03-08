@@ -8,13 +8,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    w.setGeometry(
-                QStyle::alignedRect(
-                    Qt::LeftToRight,
-                    Qt::AlignCenter,
-                    w.size(),
-                    qApp->desktop()->availableGeometry()
-                    ));
+    setWidgetOnCenterScreen(&w);
     w.show();
 
     return a.exec();

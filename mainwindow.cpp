@@ -5,8 +5,10 @@
 #include "mediacomponent.h"
 #include "playerwidget.h"
 
+#include <QApplication>
 #include <QDesktopWidget>
 #include <QMessageBox>
+#include <QStyle>
 
 const QString APP_ID = "4809611";
 const QString PERMISSIONS = "audio,offline";
@@ -14,6 +16,19 @@ const QString REDIRECT_URI = "https://oauth.vk.com/blank.html";
 const QString DISPLAY = "page";
 const QString API_VERSION = "5.28";
 const QString REVOKE = "1";
+
+void setWidgetOnCenterScreen(QWidget *widget)
+{
+    Q_ASSERT(widget);
+
+    widget->setGeometry(
+                QStyle::alignedRect(
+                    Qt::LeftToRight,
+                    Qt::AlignCenter,
+                    widget->size(),
+                    qApp->desktop()->availableGeometry()
+                    ));
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -36,7 +51,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_signInButton_clicked()
 {
     hide();
-    authWeb_->setWindowTitle("Sign In");
+    authWeb_->setWindowTitle("Flow Application Signing In");
     authWeb_->setWindowIcon(QIcon(":/icons/vkontakte.png"));
 
     connect(authWeb_, &QWebEngineView::urlChanged, api_, &ApiComponent::getTokensFromUrl);
@@ -44,13 +59,7 @@ void MainWindow::on_signInButton_clicked()
                         "&redirect_uri=" + REDIRECT_URI + "&display=" + DISPLAY + "&v=" + API_VERSION +
                         "&revoke=" + REVOKE + "&response_type=token"));
     authWeb_->show();
-    authWeb_->setGeometry(
-                QStyle::alignedRect(
-                    Qt::LeftToRight,
-                    Qt::AlignCenter,
-                    authWeb_->size(),
-                    qApp->desktop()->availableGeometry()
-                    ));
+    setWidgetOnCenterScreen(authWeb_);
 }
 
 void MainWindow::processAuthResult(bool result, const QString &error)
@@ -60,13 +69,7 @@ void MainWindow::processAuthResult(bool result, const QString &error)
     if (result)
     {
         api_->requestAuthUserPlaylist();
-        player_->setGeometry(
-                    QStyle::alignedRect(
-                        Qt::LeftToRight,
-                        Qt::AlignCenter,
-                        player_->size(),
-                        qApp->desktop()->availableGeometry()
-                        ));
+        setWidgetOnCenterScreen(player_);
         player_->show();
     }
     else

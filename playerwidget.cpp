@@ -244,6 +244,7 @@ void PlayerWidget::on_rewindButton_clicked()
 
 void PlayerWidget::search()
 {   
+    ui->searchButton->setChecked(true);
     QPushButton *sender = qobject_cast<QPushButton*>(QObject::sender());
     ApiComponent::SearchQuery query;
     query.artist = (sender && (sender == ui->artistButton)) ? true : false;

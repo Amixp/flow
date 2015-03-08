@@ -243,17 +243,12 @@ void PlayerWidget::on_rewindButton_clicked()
 }
 
 void PlayerWidget::search()
-{
+{   
     QPushButton *sender = qobject_cast<QPushButton*>(QObject::sender());
-    ui->searchButton->setChecked(true);
-    QString const searchText = ui->searchEdit->text();
-    if (!searchText.isEmpty())
-    {
-        ApiComponent::SearchQuery query;
-        query.artist = (sender && (sender == ui->artistButton)) ? true : false;
-        query.text = searchText;
-        api_->requestPlaylistBySearchQuery(query);
-    }
+    ApiComponent::SearchQuery query;
+    query.artist = (sender && (sender == ui->artistButton)) ? true : false;
+    query.text = ui->searchEdit->text();
+    api_->requestPlaylistBySearchQuery(query);
 }
 
 void PlayerWidget::requestPopular(bool checked)

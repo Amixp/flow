@@ -723,7 +723,7 @@ border-bottom-color: #D9D9D9;
      <property name="styleSheet">
       <string notr="true">#playlistTableView
 {
-background-color: #F6F6F6;
+background-color: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #E9E9E9, stop:1 #F2EEED);
 }</string>
      </property>
      <property name="frameShape">

@@ -23,7 +23,7 @@ It has user-friendly interface and very beautiful design.
 
 ![alt tag](http://www.imageupload.co.uk/images/2015/03/05/sign_in.png)
 
-![alt tag](http://s15.postimg.org/q9e2bk48b/player_new.png)
+![alt tag](http://www.imageupload.co.uk/images/2015/03/09/player.png)
 
 ### Feedback
 - dikanchukov@mail.ru 

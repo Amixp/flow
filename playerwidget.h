@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QStandardItemModel>
 #include <QSlider>
+#include <QStyle>
 #include <QWidget>
 
 namespace Ui {
@@ -28,13 +29,8 @@ protected:
     {
         if (event->button() == Qt::LeftButton)
         {
-            if (orientation() == Qt::Vertical)
-                setValue(minimum() + ((maximum()-minimum()) * (height()-event->y())) / height() ) ;
-            else
-                setValue(minimum() + ((maximum()-minimum()) * event->x()) / width() ) ;
-
+            setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), event->x(), width()));
             emit sliderMoved(value());
-
             event->accept();
         }
 

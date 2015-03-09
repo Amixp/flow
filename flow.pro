@@ -31,5 +31,4 @@ RESOURCES += \
     icons.qrc
 
 DISTFILES += \
-    README.md \
-    CMakeLists.txt
+    README.md

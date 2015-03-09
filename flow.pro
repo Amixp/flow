@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui webenginewidgets xml multimedia
+QT       += core gui webenginewidgets multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

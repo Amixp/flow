@@ -207,7 +207,12 @@ void PlayerWidget::on_playPauseButton_clicked()
         media_->pause();
     else if(state == QMediaPlayer::PausedState)
         media_->play();
-    else media_->play();
+    else
+    {
+        QModelIndexList const selectedIndexes = ui->playlistTableView->selectionModel()->selectedIndexes();
+        if (!selectedIndexes.isEmpty())
+            playIndex(selectedIndexes.at(0));
+    }
 }
 
 void PlayerWidget::stateChanged(QMediaPlayer::State state)

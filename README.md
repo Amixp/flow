@@ -5,7 +5,7 @@ Created by using Qt5 and VK API.
 
 It has user-friendly interface and very beautiful design.
 
-### How to install
+### How To Install
 Please visit http://qt-apps.org/content/show.php/Flow?content=169117 to get installer and instructions
 
 ### Build Requirements

@@ -10,6 +10,11 @@
     <height>648</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Flow</string>
   </property>
@@ -159,6 +164,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
             <height>0</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Volume</string>
+          </property>
           <property name="maximum">
            <number>100</number>
           </property>
@@ -178,6 +186,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::MinimumExpanding</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
@@ -192,6 +203,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
        <spacer name="horizontalSpacer_5">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Preferred</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -226,31 +240,6 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
           <number>6</number>
          </property>
          <item>
-          <widget class="QLabel" name="coverLabel">
-           <property name="maximumSize">
-            <size>
-             <width>44</width>
-             <height>44</height>
-            </size>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap resource="icons.qrc">:/icons/logo.png</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <property name="spacing">
             <number>3</number>
@@ -266,19 +255,19 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                 <number>3</number>
                </property>
                <item>
-                <widget class="QPushButton" name="shuffleButton">
+                <widget class="QPushButton" name="playlistButton">
                  <property name="enabled">
                   <bool>true</bool>
                  </property>
                  <property name="toolTip">
-                  <string>Shuffle</string>
+                  <string>Playlist</string>
                  </property>
                  <property name="text">
                   <string/>
                  </property>
                  <property name="icon">
                   <iconset resource="icons.qrc">
-                   <normaloff>:/icons/shuffle.png</normaloff>:/icons/shuffle.png</iconset>
+                   <normaloff>:/icons/playlist.png</normaloff>:/icons/playlist.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -288,6 +277,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
                  </property>
                  <property name="flat">
                   <bool>true</bool>
@@ -320,8 +312,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                 <widget class="QPushButton" name="titleButton">
                  <property name="font">
                   <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -355,12 +347,12 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                 <number>3</number>
                </property>
                <item>
-                <widget class="QPushButton" name="repeatButton">
+                <widget class="QPushButton" name="playbackButton">
                  <property name="enabled">
                   <bool>true</bool>
                  </property>
                  <property name="toolTip">
-                  <string>Repeat mode</string>
+                  <string>Playback mode</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -420,38 +412,6 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
            </item>
           </layout>
          </item>
-         <item>
-          <widget class="QPushButton" name="playlistButton">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="toolTip">
-            <string>Playlist</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="icons.qrc">
-             <normaloff>:/icons/playlist.png</normaloff>:/icons/playlist.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
       </item>
@@ -459,6 +419,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
        <spacer name="horizontalSpacer_6">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Preferred</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -475,6 +438,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::MinimumExpanding</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
@@ -490,6 +456,11 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
             <width>180</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgb(255, 255, 255);</string>
@@ -576,6 +547,11 @@ border-bottom-color: #D9D9D9;
       </item>
       <item>
        <widget class="QPushButton" name="myMusicButton">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>My music</string>
         </property>
@@ -592,6 +568,11 @@ border-bottom-color: #D9D9D9;
       </item>
       <item>
        <widget class="QPushButton" name="suggestedButton">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Suggested music</string>
         </property>
@@ -605,6 +586,11 @@ border-bottom-color: #D9D9D9;
       </item>
       <item>
        <widget class="QPushButton" name="popularButton">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Popular music:</string>
         </property>
@@ -618,6 +604,11 @@ border-bottom-color: #D9D9D9;
       </item>
       <item>
        <widget class="QComboBox" name="genreComboBox">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">text-align: center;</string>
         </property>
@@ -746,6 +737,11 @@ border-bottom-color: #D9D9D9;
    </item>
    <item>
     <widget class="QTableView" name="playlistTableView">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">#playlistTableView
 {

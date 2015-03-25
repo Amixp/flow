@@ -12,7 +12,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     ui(new Ui::PlayerWidget),
     api_(api), media_(media),
     model_(new QStandardItemModel(this)), playlist_(new QMediaPlaylist(this)),
-    repeatMode_(NULL), stillCurrentPlaylist_(false)
+    stillCurrentPlaylist_(false)
 {
     Q_ASSERT(media);
     Q_ASSERT(api);
@@ -26,20 +26,21 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     playlistGroup->addButton(ui->popularButton);
     playlistGroup->addButton(ui->searchButton);
 
-    QActionGroup *repeatGroup = new QActionGroup(this);
-    repeatGroup->addAction("Repeat Off");
-    repeatGroup->addAction("Repeat Single");
-    repeatGroup->addAction("Repeat All");
+    QActionGroup *playbackGroup = new QActionGroup(this);
+    playbackGroup->addAction("Shuffle");
+    playbackGroup->addAction("Repeat Off");
+    playbackGroup->addAction("Repeat Single");
+    playbackGroup->addAction("Repeat All");
 
-    foreach(QAction *action, repeatGroup->actions())
+    foreach(QAction *action, playbackGroup->actions())
         action->setCheckable(true);
-    repeatGroup->actions().at(0)->setChecked(true);
+    playbackGroup->actions().at(1)->setChecked(true);
 
-    QMenu *menu = new QMenu(ui->repeatButton);
-    menu->addActions(repeatGroup->actions());
-    ui->repeatButton->setMenu(menu);
+    QMenu *menu = new QMenu(ui->playbackButton);
+    menu->addActions(playbackGroup->actions());
+    ui->playbackButton->setMenu(menu);
 
-    connect(repeatGroup, &QActionGroup::triggered, this, &PlayerWidget::repeatModeChanged);
+    connect(playbackGroup, &QActionGroup::triggered, this, &PlayerWidget::playbackModeChanged);
 
     ui->playlistTableView->setModel(model_);
     ui->playlistTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -149,15 +150,16 @@ void PlayerWidget::currentPlayItemChanged(int position)
     setPlayItemStatusText(title, artist);
 }
 
-void PlayerWidget::repeatModeChanged(QAction *action)
+void PlayerWidget::playbackModeChanged(QAction *action)
 {
-    ui->shuffleButton->setChecked(false);
-    QString const repeatMode = action->text();
-    if (repeatMode == "Repeat Single")
+    QString const playbackMode = action->text();
+    if (playbackMode == "Shuffle")
+        media_->setPlaybackMode(QMediaPlaylist::Random);
+    if (playbackMode == "Repeat Single")
         media_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-    else if (repeatMode == "Repeat All")
+    else if (playbackMode == "Repeat All")
         media_->setPlaybackMode(QMediaPlaylist::Loop);
-    else if (repeatMode == "Repeat Off")
+    else if (playbackMode == "Repeat Off")
         media_->setPlaybackMode(QMediaPlaylist::Sequential);
 }
 
@@ -227,14 +229,6 @@ void PlayerWidget::stateChanged(QMediaPlayer::State state)
         ui->playPauseButton->setIcon(QIcon(":/icons/play.png"));
         ui->playPauseButton->setToolTip("Play");
     }
-}
-
-void PlayerWidget::on_shuffleButton_clicked(bool checked)
-{
-    if (checked)
-        media_->setPlaybackMode(QMediaPlaylist::Random);
-    else
-        repeatModeChanged(ui->repeatButton->menu()->actions().at(0)->actionGroup()->checkedAction());
 }
 
 void PlayerWidget::on_forwardButton_clicked()

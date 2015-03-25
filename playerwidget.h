@@ -5,7 +5,6 @@
 #include "mediacomponent.h"
 
 #include <QMouseEvent>
-#include <QPushButton>
 #include <QStandardItemModel>
 #include <QSlider>
 #include <QStyle>
@@ -60,7 +59,7 @@ private slots:
 
     void currentPlayItemChanged(int position);
 
-    void repeatModeChanged(QAction *action);
+    void playbackModeChanged(QAction *action);
 
 
     void playIndex(const QModelIndex& index);
@@ -77,8 +76,6 @@ private slots:
 
     void requestPopular(const QString&);
 
-
-    void on_shuffleButton_clicked(bool checked);
 
     void on_forwardButton_clicked();
 
@@ -118,7 +115,6 @@ private:
     MediaComponent *media_;
     QStandardItemModel *model_;
     QMediaPlaylist *playlist_;
-    QPushButton *repeatMode_;
     bool stillCurrentPlaylist_;
 };
 

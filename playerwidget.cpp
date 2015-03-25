@@ -19,12 +19,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
 
     ui->setupUi(this);
 
-    QButtonGroup *playlistGroup = new QButtonGroup(this);
-    playlistGroup->addButton(ui->playlistButton);
-    playlistGroup->addButton(ui->myMusicButton);
-    playlistGroup->addButton(ui->suggestedButton);
-    playlistGroup->addButton(ui->popularButton);
-    playlistGroup->addButton(ui->searchButton);
+    ui->musicSubMenuListWidget->clearSelection();
 
     QActionGroup *playbackGroup = new QActionGroup(this);
     playbackGroup->addAction("Shuffle");
@@ -53,10 +48,6 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(ui->searchEdit, &QLineEdit::returnPressed, this, &PlayerWidget::search);
     connect(ui->searchButton, &QPushButton::clicked, this, &PlayerWidget::search);
 
-    connect(ui->myMusicButton, &QPushButton::clicked, api_, &ApiComponent::requestAuthUserPlaylist);
-    connect(ui->suggestedButton, &QPushButton::clicked, api_, &ApiComponent::requestSuggestedPlaylist);
-    connect(ui->popularButton, SIGNAL(clicked(bool)), this, SLOT(requestPopular(bool)));
-    connect(ui->genreComboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(requestPopular(QString)));
     connect(this, &PlayerWidget::requestedPopularByGenre, api_, &ApiComponent::requestPopularPlaylistByGenre);
 
     connect(ui->volumeSlider, &QSlider::sliderMoved, this, &PlayerWidget::changeVolume);
@@ -243,6 +234,7 @@ void PlayerWidget::on_rewindButton_clicked()
 
 void PlayerWidget::search()
 {   
+    clearMusicMenusSelections();
     ui->searchButton->setChecked(true);
     QPushButton *sender = qobject_cast<QPushButton*>(QObject::sender());
     ApiComponent::SearchQuery query;
@@ -251,22 +243,11 @@ void PlayerWidget::search()
     api_->requestPlaylistBySearchQuery(query);
 }
 
-void PlayerWidget::requestPopular(bool checked)
-{
-    if(checked)
-        emit requestedPopularByGenre(ui->genreComboBox->currentText());
-}
-
-void PlayerWidget::requestPopular(const QString& /*&genre*/)
-{
-    ui->popularButton->setChecked(true);
-    requestPopular(ui->popularButton->isChecked());
-}
-
 void PlayerWidget::on_playlistButton_toggled(bool checked)
 {
     if (checked)
     {
+        clearMusicMenusSelections();
         stillCurrentPlaylist_ = true;
         ui->playlistTableView->setModel(media_->model());
         ui->playlistTableView->selectRow(media_->playlist()->currentIndex());
@@ -285,4 +266,51 @@ void PlayerWidget::on_artistButton_clicked()
 {
     ui->searchEdit->setText(ui->artistButton->text());
     search();
+}
+
+void PlayerWidget::on_musicMenuListWidget_clicked(const QModelIndex &index)
+{
+    ui->playlistButton->setChecked(false);
+    ui->searchButton->setChecked(false);
+
+    const int row = index.row();
+
+    if (row != PopularMusic)
+        ui->musicSubMenuListWidget->setCurrentRow(-1);
+
+    switch(index.row())
+    {
+    case MyMusic:
+    {
+        api_->requestAuthUserPlaylist();
+        break;
+    }
+    case SuggestedMusic:
+    {
+        api_->requestSuggestedPlaylist();
+        break;
+    }
+    case PopularMusic:
+    {
+        ui->musicSubMenuListWidget->setCurrentRow(0);
+        api_->requestPopularPlaylistByGenre(ui->musicSubMenuListWidget->currentItem()->text());
+        break;
+    }
+    default: break;
+    }
+}
+
+void PlayerWidget::on_musicSubMenuListWidget_clicked(const QModelIndex &index)
+{
+    ui->playlistButton->setChecked(false);
+    ui->searchButton->setChecked(false);
+
+    ui->musicMenuListWidget->setCurrentRow(PopularMusic);
+    api_->requestPopularPlaylistByGenre(ui->musicSubMenuListWidget->item(index.row())->text());
+}
+
+void PlayerWidget::clearMusicMenusSelections()
+{
+    ui->musicMenuListWidget->clearSelection();
+    ui->musicSubMenuListWidget->clearSelection();
 }

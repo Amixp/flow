@@ -41,6 +41,13 @@ class PlayerWidget : public QWidget
 {
     Q_OBJECT
 
+    enum MusicMenu
+    {
+        MyMusic,
+        SuggestedMusic,
+        PopularMusic
+    };
+
 public:
     explicit PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *parent = 0);
     ~PlayerWidget();
@@ -72,10 +79,6 @@ private slots:
 
     void search();
 
-    void requestPopular(bool checked);
-
-    void requestPopular(const QString&);
-
 
     void on_forwardButton_clicked();
 
@@ -90,6 +93,10 @@ private slots:
 
     void on_artistButton_clicked();
 
+    void on_musicMenuListWidget_clicked(const QModelIndex &index);
+
+    void on_musicSubMenuListWidget_clicked(const QModelIndex &index);
+
 signals:
     void playlistCleared();
 
@@ -100,6 +107,8 @@ signals:
     void requestedPopularByGenre(const QString& genre);
 
 private:
+
+    void clearMusicMenusSelections();
 
     void setPlayItemStatusText(const QString& title, const QString& artist);
 

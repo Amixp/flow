@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>788</width>
+    <width>845</width>
     <height>597</height>
    </rect>
   </property>
   <property name="font">
    <font>
-    <pointsize>8</pointsize>
+    <pointsize>10</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -317,6 +317,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                 <widget class="QPushButton" name="titleButton">
                  <property name="font">
                   <font>
+                   <pointsize>10</pointsize>
                    <weight>50</weight>
                    <bold>false</bold>
                   </font>
@@ -333,7 +334,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                 <widget class="QPushButton" name="artistButton">
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <pointsize>10</pointsize>
                   </font>
                  </property>
                  <property name="text">
@@ -464,7 +465,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
           </property>
           <property name="font">
            <font>
-            <pointsize>8</pointsize>
+            <pointsize>10</pointsize>
            </font>
           </property>
           <property name="styleSheet">
@@ -529,7 +530,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         <widget class="QPushButton" name="myMusicButton">
          <property name="font">
           <font>
-           <pointsize>8</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -550,7 +551,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         <widget class="QPushButton" name="suggestedButton">
          <property name="font">
           <font>
-           <pointsize>8</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -568,7 +569,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         <widget class="QPushButton" name="popularButton">
          <property name="font">
           <font>
-           <pointsize>8</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -599,7 +600,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         <widget class="QComboBox" name="genreComboBox">
          <property name="font">
           <font>
-           <pointsize>8</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -744,7 +745,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
       <widget class="QTableView" name="playlistTableView">
        <property name="font">
         <font>
-         <pointsize>8</pointsize>
+         <pointsize>10</pointsize>
         </font>
        </property>
        <property name="styleSheet">

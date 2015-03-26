@@ -9,6 +9,7 @@
 #include <QStandardItemModel>
 #include <QSlider>
 #include <QStyle>
+#include <QSystemTrayIcon>
 #include <QWidget>
 
 namespace Ui {
@@ -82,9 +83,16 @@ public:
     ~PlayerWidget();
 
 public slots:
+    void show();
+
     void setPlaylist(const ApiComponent::Playlist& playlist);
 
+protected:
+    virtual void closeEvent(QCloseEvent *);
+
 private slots:
+    void showFromTray(QSystemTrayIcon::ActivationReason);
+
     void durationChanged(qint64 duration);
 
     void positionChanged(qint64 progress);
@@ -110,14 +118,14 @@ private slots:
 
     void solvePlaybackMode();
 
+    void solvePlayPauseAction();
+
+    void rewind();
+
+    void forward();
+
     void setSearchResultsMenuVisible(bool visible);
 
-
-    void on_forwardButton_clicked();
-
-    void on_rewindButton_clicked();
-
-    void on_playPauseButton_clicked();
 
 
     void on_musicMenuListWidget_clicked(const QModelIndex &index);
@@ -137,6 +145,8 @@ signals:
 
 private:
 
+    void initSystemTrayMenu();
+
     void fillMusicSubMenuByGenres();
 
     void setPlayItemTitleText(const QString& title);
@@ -153,6 +163,7 @@ private:
     MediaComponent *media_;
     QStandardItemModel *model_;
     QMediaPlaylist *playlist_;
+    QSystemTrayIcon *trayIcon_;
     bool stillCurrentPlaylist_;
 };
 

@@ -12,12 +12,14 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     ui(new Ui::PlayerWidget),
     api_(api), media_(media),
     model_(new QStandardItemModel(this)), playlist_(new QMediaPlaylist(this)),
-    stillCurrentPlaylist_(false)
+    trayIcon_(new QSystemTrayIcon(this)),stillCurrentPlaylist_(false)
 {
     Q_ASSERT(media);
     Q_ASSERT(api);
 
     ui->setupUi(this);
+
+    initSystemTrayMenu();
 
     ui->musicSubMenuListWidget->clear();
 
@@ -33,6 +35,10 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(ui->searchButton, &QPushButton::clicked, this, &PlayerWidget::search);
 
     connect(this, &PlayerWidget::requestedPopularByGenre, api_, &ApiComponent::requestPopularPlaylistByGenre);
+
+    connect(ui->playPauseButton, &QPushButton::clicked, this, &PlayerWidget::solvePlayPauseAction);
+    connect(ui->rewindButton, &QPushButton::clicked, this, &PlayerWidget::rewind);
+    connect(ui->forwardButton, &QPushButton::clicked, this, &PlayerWidget::forward);
 
     connect(ui->shuffleButton, &QPushButton::clicked, this, &PlayerWidget::solvePlaybackMode);
     connect(ui->loopButton, &QPushButton::clicked, this, &PlayerWidget::solvePlaybackMode);
@@ -62,6 +68,25 @@ void PlayerWidget::setPlaylist(const ApiComponent::Playlist& playlist)
 
     foreach (const ApiComponent::PlaylistItem& item, playlist)
         addItem(item);
+}
+
+void PlayerWidget::closeEvent(QCloseEvent *event)
+{
+    hide();
+    trayIcon_->show();
+    event->ignore();
+}
+
+void PlayerWidget::showFromTray(QSystemTrayIcon::ActivationReason reason)
+{
+    if (reason == QSystemTrayIcon::DoubleClick)
+        show();
+}
+
+void PlayerWidget::show()
+{
+    trayIcon_->hide();
+    QWidget::show();
 }
 
 void PlayerWidget::clear()
@@ -106,7 +131,7 @@ void PlayerWidget::playIndex(const QModelIndex &index)
 void PlayerWidget::setPlayItemTitleText(const QString& title)
 {
     ui->titleLabel->setText(title);
-    setWindowTitle(title + " [Flow]");
+    trayIcon_->setToolTip(title);
 }
 
 void PlayerWidget::currentPlayItemChanged(int position)
@@ -175,7 +200,7 @@ void PlayerWidget::changeVolume(int volume)
     media_->setVolume(volume);
 }
 
-void PlayerWidget::on_playPauseButton_clicked()
+void PlayerWidget::solvePlayPauseAction()
 {
     QMediaPlayer::State const state = media_->state();
     if(state == QMediaPlayer::PlayingState)
@@ -190,6 +215,16 @@ void PlayerWidget::on_playPauseButton_clicked()
     }
 }
 
+void PlayerWidget::rewind()
+{
+    media_->previous();
+}
+
+void PlayerWidget::forward()
+{
+    media_->next();
+}
+
 void PlayerWidget::stateChanged(QMediaPlayer::State state)
 {
     if(state == QMediaPlayer::PlayingState)
@@ -202,16 +237,6 @@ void PlayerWidget::stateChanged(QMediaPlayer::State state)
         ui->playPauseButton->setIcon(QIcon(":/icons/play.png"));
         ui->playPauseButton->setToolTip("Play");
     }
-}
-
-void PlayerWidget::on_forwardButton_clicked()
-{
-    media_->next();
-}
-
-void PlayerWidget::on_rewindButton_clicked()
-{
-    media_->previous();
 }
 
 void PlayerWidget::search()
@@ -322,4 +347,40 @@ void PlayerWidget::on_clearSearchTextButton_clicked()
 {
     ui->searchEdit->clear();
     ui->searchEdit->setFocus();
+}
+
+void PlayerWidget::initSystemTrayMenu()
+{
+    trayIcon_->setIcon(QIcon(":icons/logo.png"));
+    trayIcon_->hide();
+
+    QMenu *trayMenu = new QMenu(this);
+
+    connect(trayIcon_, &QSystemTrayIcon::activated, this, &PlayerWidget::showFromTray);
+
+    QAction *showAction = new QAction("Show", this);
+    connect(showAction, &QAction::triggered, this, &PlayerWidget::show);
+    trayMenu->addAction(showAction);
+
+    trayMenu->addSeparator();
+
+    QAction *playPauseAction = new QAction("Play/Pause", this);
+    connect(playPauseAction, &QAction::triggered, this, &PlayerWidget::solvePlayPauseAction);
+    trayMenu->addAction(playPauseAction);
+
+    QAction *rewindAction = new QAction("Rewind", this);
+    connect(rewindAction, &QAction::triggered, this, &PlayerWidget::rewind);
+    trayMenu->addAction(rewindAction);
+
+    QAction *forwardAction = new QAction("Forward", this);
+    connect(forwardAction, &QAction::triggered, this, &PlayerWidget::forward);
+    trayMenu->addAction(forwardAction);
+
+    trayMenu->addSeparator();
+
+    QAction *exitAction = new QAction("Exit", this);
+    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::exit);
+    trayMenu->addAction(exitAction);
+
+    trayIcon_->setContextMenu(trayMenu);
 }

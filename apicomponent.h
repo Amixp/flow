@@ -8,19 +8,21 @@ class ApiComponent : public QObject
 {
     Q_OBJECT
 
+    enum OAuthTokens
+    {
+        AccessToken,
+        ExpiresIn,
+        UserId
+    };
+
+    typedef QMap<OAuthTokens, QString> OAuthTokensMap;
+
 public:
 
     struct SearchQuery
     {
         bool artist;
         QString text;
-    };
-
-    enum OAuthTokens
-    {
-        AccessToken,
-        ExpiresIn,
-        UserId
     };
 
     enum PlaylistItemData
@@ -56,16 +58,15 @@ public:
         Other = 18
     };
 
-    typedef QMap<OAuthTokens, QString> OAuthTokensMap;
     typedef QMap<PlaylistItemData, QString> PlaylistItem;
     typedef QList<PlaylistItem> Playlist;
-
     typedef QMap<QString, Genres> GenresMap;
 
     explicit ApiComponent(QObject *parent = 0);
 
     void setOAuthTokens(const OAuthTokensMap& tokens);
     const OAuthTokensMap& tokens() const;
+    const GenresMap& genres() const;
 
 signals:
     void authorizeFinished(bool successfully, const QString& error);
@@ -87,7 +88,7 @@ private:
     void sendPlaylistRequest(const QString& request);
 
     OAuthTokensMap tokens_;
-    GenresMap genres;
+    GenresMap genres_;
 };
 
 #endif // ApiComponent_H

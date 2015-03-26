@@ -17,6 +17,11 @@ const ApiComponent::OAuthTokensMap& ApiComponent::tokens() const
     return tokens_;
 }
 
+const ApiComponent::GenresMap &ApiComponent::genres() const
+{
+    return genres_;
+}
+
 void ApiComponent::getTokensFromUrl(const QUrl& url)
 {
     QString const urlString = url.toString();
@@ -79,27 +84,27 @@ void ApiComponent::getPlaylistFromReply(QNetworkReply *reply)
 
 void ApiComponent::initializeGenresMap()
 {
-    genres["Rock"] = Rock;
-    genres["Pop"] = Pop;
-    genres["Rap & Hip-hop"] = RapAndHipHop;
-    genres["Easy Listening"] = EasyListening;
-    genres["Dance & House"] = DanceAndHouse;
-    genres["Instrumental"] = Instrumental;
-    genres["Metal"] = Metal;
-    genres["Alternative"] = Alternative;
-    genres["Dubstep"] = Dubstep;
-    genres["Jazz & Blues"] = JazzAndBlues;
-    genres["Drum & Bass"] = DrumAndBass;
-    genres["Trance"] = Trance;
-    genres["Chanson"] = Chanson;
-    genres["Ethnic"] = Ethnic;
-    genres["Acoustic & Vocal"] = AcousticAndVocal;
-    genres["Reggae"] = Reggae;
-    genres["Classical"] = Classical;
-    genres["Indie Pop"] = IndiePop;
-    genres["Speech"] = Speech;
-    genres["Electropop & Disco"] = ElectropopAndDisco;
-    genres["Other"] = Other;
+    genres_["Rock"] = Rock;
+    genres_["Pop"] = Pop;
+    genres_["Rap & Hip-hop"] = RapAndHipHop;
+    genres_["Easy Listening"] = EasyListening;
+    genres_["Dance & House"] = DanceAndHouse;
+    genres_["Instrumental"] = Instrumental;
+    genres_["Metal"] = Metal;
+    genres_["Alternative"] = Alternative;
+    genres_["Dubstep"] = Dubstep;
+    genres_["Jazz & Blues"] = JazzAndBlues;
+    genres_["Drum & Bass"] = DrumAndBass;
+    genres_["Trance"] = Trance;
+    genres_["Chanson"] = Chanson;
+    genres_["Ethnic"] = Ethnic;
+    genres_["Acoustic & Vocal"] = AcousticAndVocal;
+    genres_["Reggae"] = Reggae;
+    genres_["Classical"] = Classical;
+    genres_["Indie Pop"] = IndiePop;
+    genres_["Speech"] = Speech;
+    genres_["Electropop & Disco"] = ElectropopAndDisco;
+    genres_["Other"] = Other;
 }
 
 void ApiComponent::sendPlaylistRequest(const QString &request)
@@ -130,7 +135,7 @@ void ApiComponent::requestPopularPlaylistByGenre(const QString &genre)
 {
     sendPlaylistRequest("https://api.vk.com/method/audio.getPopular.xml?uid=" +
                         tokens_[UserId] + "&access_token=" + tokens_[AccessToken] +
-                        + "&genre_id=" + QString::number(genres[genre]) + "&count=500");
+                        + "&genre_id=" + QString::number(genres_[genre]) + "&count=500");
 }
 
 void ApiComponent::requestPlaylistBySearchQuery(const ApiComponent::SearchQuery &query)

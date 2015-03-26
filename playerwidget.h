@@ -4,6 +4,7 @@
 #include "apicomponent.h"
 #include "mediacomponent.h"
 
+#include <QLabel>
 #include <QMouseEvent>
 #include <QStandardItemModel>
 #include <QSlider>
@@ -13,6 +14,25 @@
 namespace Ui {
 class PlayerWidget;
 }
+
+class ClickableLabel : public QLabel
+{
+    Q_OBJECT
+
+public:
+    explicit ClickableLabel(QWidget *parent = 0) : QLabel(parent) {}
+
+    ~ClickableLabel() {}
+
+signals:
+    void clicked();
+
+protected:
+    void mousePressEvent(QMouseEvent */*event*/)
+    {
+        emit clicked();
+    }
+};
 
 class MouseDirectJumpSlider : public QSlider
 {
@@ -43,9 +63,16 @@ class PlayerWidget : public QWidget
 
     enum MusicMenu
     {
+        CurrentPlaylist,
         MyMusic,
         SuggestedMusic,
         PopularMusic
+    };
+
+    enum PlaylistColumn
+    {
+        ArtistAndTitle,
+        Duration
     };
 
 public:
@@ -87,11 +114,7 @@ private slots:
     void on_playPauseButton_clicked();
 
 
-    void on_playlistButton_toggled(bool checked);
-
-    void on_titleButton_clicked();
-
-    void on_artistButton_clicked();
+    void searchByTitle();
 
     void on_musicMenuListWidget_clicked(const QModelIndex &index);
 
@@ -108,9 +131,9 @@ signals:
 
 private:
 
-    void clearMusicMenusSelections();
+    void fillMusicSubMenuByGenres();
 
-    void setPlayItemStatusText(const QString& title, const QString& artist);
+    void setPlayItemTitleText(const QString& title);
 
     void clear();
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1036</width>
-    <height>649</height>
+    <width>684</width>
+    <height>635</height>
    </rect>
   </property>
   <property name="font">
@@ -46,16 +46,10 @@
    <item>
     <widget class="QFrame" name="controlFrame">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>1081</width>
-       <height>16777215</height>
-      </size>
      </property>
      <property name="font">
       <font>
@@ -83,6 +77,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
        <number>9</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
       </property>
       <property name="leftMargin">
        <number>3</number>
@@ -172,19 +169,6 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
        <widget class="QFrame" name="frame">
         <property name="styleSheet">
          <string notr="true">QFrame {
@@ -253,11 +237,14 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                  <pointsize>9</pointsize>
                 </font>
                </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                </property>
                <property name="text">
                 <string/>
+               </property>
+               <property name="wordWrap">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -280,6 +267,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
                 <font>
                  <pointsize>8</pointsize>
                 </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                </property>
                <property name="text">
                 <string>0:00</string>
@@ -319,6 +309,12 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
               <size>
                <width>64</width>
                <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>128</width>
+               <height>16777215</height>
               </size>
              </property>
              <property name="toolTip">
@@ -391,6 +387,19 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
          <number>0</number>
         </property>
         <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QPushButton" name="clearSearchTextButton">
           <property name="toolTip">
            <string>Clear</string>
@@ -423,7 +432,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
           </property>
           <property name="maximumSize">
            <size>
-            <width>512</width>
+            <width>256</width>
             <height>16777215</height>
            </size>
           </property>
@@ -482,6 +491,9 @@ background-color: rgb(255, 255, 255);</string>
        <property name="spacing">
         <number>6</number>
        </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
        <property name="leftMargin">
         <number>6</number>
        </property>
@@ -504,7 +516,7 @@ background-color: rgb(255, 255, 255);</string>
          </property>
          <property name="maximumSize">
           <size>
-           <width>160</width>
+           <width>135</width>
            <height>105</height>
           </size>
          </property>
@@ -512,9 +524,6 @@ background-color: rgb(255, 255, 255);</string>
           <font>
            <pointsize>9</pointsize>
           </font>
-         </property>
-         <property name="cursor" stdset="0">
-          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="autoFillBackground">
           <bool>false</bool>
@@ -536,6 +545,9 @@ QListWidget::item {
          </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>false</bool>
          </property>
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
@@ -617,7 +629,7 @@ QListWidget::item {
          </property>
          <property name="maximumSize">
           <size>
-           <width>160</width>
+           <width>135</width>
            <height>16777215</height>
           </size>
          </property>
@@ -625,9 +637,6 @@ QListWidget::item {
           <font>
            <pointsize>9</pointsize>
           </font>
-         </property>
-         <property name="cursor" stdset="0">
-          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true">QListWidget {
@@ -646,6 +655,9 @@ QListWidget::item {
          </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>false</bool>
          </property>
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
@@ -896,7 +908,7 @@ background-color: rgb(255, 255, 255)
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
        <property name="alternatingRowColors">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::SingleSelection</enum>

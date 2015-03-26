@@ -19,7 +19,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#MainWindow {
-background-color: rgb(255, 255, 255);
+	background-color: rgb(255, 255, 255);
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -160,7 +160,7 @@ background-color: rgb(255, 255, 255);
        <widget class="QPushButton" name="signInButton">
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <pointsize>9</pointsize>
          </font>
         </property>
         <property name="text">

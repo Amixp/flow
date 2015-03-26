@@ -29,8 +29,6 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(this, &PlayerWidget::playlistCleared, media_, &MediaComponent::clearPlaylist);
     connect(this, &PlayerWidget::playlistItemAdded, media_, &MediaComponent::addItemToPlaylist);
 
-    connect(ui->titleLabel, &ClickableLabel::clicked, this, &PlayerWidget::searchByTitle);
-    connect(ui->durationLabel, &ClickableLabel::clicked, this, &PlayerWidget::solveDurationLabelText);
     connect(ui->searchEdit, &QLineEdit::returnPressed, this, &PlayerWidget::search);
     connect(ui->searchButton, &QPushButton::clicked, this, &PlayerWidget::search);
 
@@ -108,7 +106,7 @@ void PlayerWidget::playIndex(const QModelIndex &index)
 void PlayerWidget::setPlayItemTitleText(const QString& title)
 {
     ui->titleLabel->setText(title);
-    setWindowTitle(title);
+    setWindowTitle(title + " [Flow]");
 }
 
 void PlayerWidget::currentPlayItemChanged(int position)
@@ -243,10 +241,6 @@ void PlayerWidget::solvePlaybackMode()
     else media_->setPlaybackMode(QMediaPlaylist::Loop);
 }
 
-void PlayerWidget::solveDurationLabelText()
-{
-}
-
 void PlayerWidget::setSearchResultsMenuVisible(bool visible)
 {
     if (visible)
@@ -263,18 +257,15 @@ void PlayerWidget::setSearchResultsMenuVisible(bool visible)
 
 }
 
-void PlayerWidget::searchByTitle()
-{
-    ui->searchEdit->setText(ui->titleLabel->text());
-    search();
-}
-
 void PlayerWidget::on_musicMenuListWidget_clicked(const QModelIndex &index)
 {
     const int row = index.row();
 
     if (row != SearchResults)
+    {
         setSearchResultsMenuVisible(false);
+        ui->searchEdit->clear();
+    }
 
     if (row != PopularMusic)
     {

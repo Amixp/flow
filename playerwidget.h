@@ -110,8 +110,6 @@ private slots:
 
     void solvePlaybackMode();
 
-    void solveDurationLabelText();
-
     void setSearchResultsMenuVisible(bool visible);
 
 
@@ -121,8 +119,6 @@ private slots:
 
     void on_playPauseButton_clicked();
 
-
-    void searchByTitle();
 
     void on_musicMenuListWidget_clicked(const QModelIndex &index);
 

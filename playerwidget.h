@@ -66,7 +66,8 @@ class PlayerWidget : public QWidget
         CurrentPlaylist,
         MyMusic,
         SuggestedMusic,
-        PopularMusic
+        PopularMusic,
+        SearchResults
     };
 
     enum PlaylistColumn

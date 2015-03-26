@@ -30,10 +30,14 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(this, &PlayerWidget::playlistItemAdded, media_, &MediaComponent::addItemToPlaylist);
 
     connect(ui->titleLabel, &ClickableLabel::clicked, this, &PlayerWidget::searchByTitle);
+    connect(ui->durationLabel, &ClickableLabel::clicked, this, &PlayerWidget::solveDurationLabelText);
     connect(ui->searchEdit, &QLineEdit::returnPressed, this, &PlayerWidget::search);
     connect(ui->searchButton, &QPushButton::clicked, this, &PlayerWidget::search);
 
     connect(this, &PlayerWidget::requestedPopularByGenre, api_, &ApiComponent::requestPopularPlaylistByGenre);
+
+    connect(ui->shuffleButton, &QPushButton::clicked, this, &PlayerWidget::solvePlaybackMode);
+    connect(ui->loopButton, &QPushButton::clicked, this, &PlayerWidget::solvePlaybackMode);
 
     connect(ui->volumeSlider, &QSlider::sliderMoved, this, &PlayerWidget::changeVolume);
     connect(ui->timeSlider, &QSlider::sliderMoved, this, &PlayerWidget::seek);
@@ -214,11 +218,49 @@ void PlayerWidget::on_rewindButton_clicked()
 
 void PlayerWidget::search()
 {   
-    ui->searchButton->setChecked(true);
     ApiComponent::SearchQuery query;
     query.artist = false;
     query.text = ui->searchEdit->text();
     api_->requestPlaylistBySearchQuery(query);
+
+    if (ui->musicMenuListWidget->count() != MusicMenu::Count)
+        setSearchResultsMenuVisible(true);
+
+    ui->musicSubMenuListWidget->clear();
+}
+
+void PlayerWidget::solvePlaybackMode()
+{
+    bool const shuffle = ui->shuffleButton->isChecked();
+    bool const loop = ui->loopButton->isChecked();
+
+    if (shuffle && loop)
+        media_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    else if (shuffle && !loop)
+        media_->setPlaybackMode(QMediaPlaylist::Random);
+    else if (!shuffle && loop)
+        media_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    else media_->setPlaybackMode(QMediaPlaylist::Loop);
+}
+
+void PlayerWidget::solveDurationLabelText()
+{
+}
+
+void PlayerWidget::setSearchResultsMenuVisible(bool visible)
+{
+    if (visible)
+    {
+        ui->musicMenuListWidget->insertItem(SearchResults, "Search results");
+        ui->musicMenuListWidget->setCurrentRow(SearchResults);
+    }
+    else
+    {
+        QListWidgetItem *item = ui->musicMenuListWidget->item(SearchResults);
+        if (item)
+            delete item;
+    }
+
 }
 
 void PlayerWidget::searchByTitle()
@@ -229,9 +271,10 @@ void PlayerWidget::searchByTitle()
 
 void PlayerWidget::on_musicMenuListWidget_clicked(const QModelIndex &index)
 {
-    ui->searchButton->setChecked(false);
-
     const int row = index.row();
+
+    if (row != SearchResults)
+        setSearchResultsMenuVisible(false);
 
     if (row != PopularMusic)
     {
@@ -274,8 +317,6 @@ void PlayerWidget::on_musicMenuListWidget_clicked(const QModelIndex &index)
 
 void PlayerWidget::on_musicSubMenuListWidget_clicked(const QModelIndex &index)
 {
-    ui->searchButton->setChecked(false);
-
     ui->musicMenuListWidget->setCurrentRow(PopularMusic);
     api_->requestPopularPlaylistByGenre(ui->musicSubMenuListWidget->item(index.row())->text());
 }
@@ -284,4 +325,10 @@ void PlayerWidget::fillMusicSubMenuByGenres()
 {
     ui->musicSubMenuListWidget->clear();
     ui->musicSubMenuListWidget->addItems(api_->genres().keys());
+}
+
+void PlayerWidget::on_clearSearchTextButton_clicked()
+{
+    ui->searchEdit->clear();
+    ui->searchEdit->setFocus();
 }

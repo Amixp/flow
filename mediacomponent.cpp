@@ -5,7 +5,7 @@ MediaComponent::MediaComponent(QObject *parent) : QObject(parent), player_(new Q
 {
     player_->setPlaylist(playlist_);
     setVolume(100);
-    setPlaybackMode(QMediaPlaylist::Sequential);
+    setPlaybackMode(QMediaPlaylist::Loop);
 
     connect(player_, &QMediaPlayer::durationChanged, this, &MediaComponent::setDuration);
 }

@@ -67,7 +67,8 @@ class PlayerWidget : public QWidget
         MyMusic,
         SuggestedMusic,
         PopularMusic,
-        SearchResults
+        SearchResults,
+        Count
     };
 
     enum PlaylistColumn
@@ -107,6 +108,12 @@ private slots:
 
     void search();
 
+    void solvePlaybackMode();
+
+    void solveDurationLabelText();
+
+    void setSearchResultsMenuVisible(bool visible);
+
 
     void on_forwardButton_clicked();
 
@@ -120,6 +127,8 @@ private slots:
     void on_musicMenuListWidget_clicked(const QModelIndex &index);
 
     void on_musicSubMenuListWidget_clicked(const QModelIndex &index);
+
+    void on_clearSearchTextButton_clicked();
 
 signals:
     void playlistCleared();

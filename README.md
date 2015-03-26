@@ -1,4 +1,4 @@
-![alt tag](http://i.imgur.com/IYUuqO6.png)
+![alt tag](http://i.imgur.com/iTlAtjU.png?1)
 
 ## Flow
 Application for listening audio files on vk.com (Vkontakte)

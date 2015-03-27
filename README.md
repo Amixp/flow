@@ -10,7 +10,7 @@ It has user-friendly interface and very beautiful design.
 ### Build Requirements
 -  TagLib 1.9.1 ( https://taglib.github.io/ )
 
-Just extract and run './cmake . && make && sudo make install'
+   Just extract and run './cmake . && make && sudo make install'
 -  Qt 5.4 with WebEngine support
 
 ### Access

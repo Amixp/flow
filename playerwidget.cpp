@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QMediaPlaylist>
 
+static const int SYSTEM_TRAY_MESSAGE_TIMEOUT_HINT = 3000;
+
 PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PlayerWidget),
@@ -128,10 +130,11 @@ void PlayerWidget::playIndex(const QModelIndex &index)
     emit startedPlaying(currentIndex);
 }
 
-void PlayerWidget::setPlayItemTitleText(const QString& title)
+void PlayerWidget::showCurrentPlayItemText(const QString& title)
 {
     ui->titleLabel->setText(title);
     trayIcon_->setToolTip(title);
+    trayIcon_->showMessage("Now playing", title, QSystemTrayIcon::Information, SYSTEM_TRAY_MESSAGE_TIMEOUT_HINT);
 }
 
 void PlayerWidget::currentPlayItemChanged(int position)
@@ -147,7 +150,7 @@ void PlayerWidget::currentPlayItemChanged(int position)
     if (stillCurrentPlaylist_)
         ui->playlistTableView->selectRow(position);
 
-    setPlayItemTitleText(title);
+    showCurrentPlayItemText(title);
 }
 
 void PlayerWidget::playbackModeChanged(QAction *action)
@@ -228,6 +231,7 @@ void PlayerWidget::forward()
 void PlayerWidget::stateChanged(QMediaPlayer::State state)
 {
     QAction * const playPauseAction = trayIcon_->contextMenu()->actions().at(SystemTrayControl::PlayPause);
+    QString const currentTitle = ui->titleLabel->text();
 
     if(state == QMediaPlayer::PlayingState)
     {
@@ -235,6 +239,7 @@ void PlayerWidget::stateChanged(QMediaPlayer::State state)
         ui->playPauseButton->setToolTip("Pause");
         playPauseAction->setIcon(QIcon(":/icons/pause.png"));
         playPauseAction->setText("Pause");
+        trayIcon_->setToolTip(currentTitle);
     }
     else if (state == QMediaPlayer::PausedState || state ==QMediaPlayer::StoppedState)
     {
@@ -242,6 +247,7 @@ void PlayerWidget::stateChanged(QMediaPlayer::State state)
         ui->playPauseButton->setToolTip("Play");
         playPauseAction->setIcon(QIcon(":/icons/play.png"));
         playPauseAction->setText("Play");
+        trayIcon_->setToolTip(currentTitle + " [Paused]");
     }
 }
 

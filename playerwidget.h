@@ -158,7 +158,7 @@ private:
 
     void fillMusicSubMenuByGenres();
 
-    void setPlayItemTitleText(const QString& title);
+    void showCurrentPlayItemText(const QString& title);
 
     void clear();
 

@@ -9,6 +9,8 @@ It has user-friendly interface and very beautiful design.
 
 ### Build Requirements
 -  Qt 5.4 with WebEngine support 
+-  TagLib 1.9.1(https://taglib.github.io/)*
+* - It's very simple to install. Just extract and run './cmake . && make && sudo make install'
 
 ### Access
 -  Audio files
@@ -16,6 +18,7 @@ It has user-friendly interface and very beautiful design.
 
 ### Features
 -  Playlists
+-  Album cover
 -  Search
 -  Shuffle
 -  Loop
@@ -26,7 +29,7 @@ It has user-friendly interface and very beautiful design.
 
 ![alt tag](http://i.imgur.com/EBj2m2p.png)
 
-![alt tag](http://i.imgur.com/BwENHps.png)
+![alt tag](http://i.imgur.com/Tp8iDEZ.png)
 
 ### Feedback
 - dikanchukov@mail.ru 

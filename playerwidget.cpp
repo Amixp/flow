@@ -29,6 +29,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     ui->playlistTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->playlistTableView->horizontalHeader()->setVisible(false);
 
+    connect(media_, &MediaComponent::coverExtracted, ui->coverLabel, &QLabel::setPixmap);
     connect(api_, &ApiComponent::playlistReceived, this, &PlayerWidget::setPlaylist);
     connect(this, &PlayerWidget::playlistCleared, media_, &MediaComponent::clearPlaylist);
     connect(this, &PlayerWidget::playlistItemAdded, media_, &MediaComponent::addItemToPlaylist);

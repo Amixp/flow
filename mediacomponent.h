@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QNetworkReply>
 #include <QStandardItemModel>
 
 class MediaComponent : public QObject
@@ -47,8 +48,15 @@ public slots:
     void addItemToPlaylist(const QUrl& url);
     void clearPlaylist();
 
+signals:
+    void coverExtracted(const QPixmap&);
+
 private slots:
     void setDuration(qint64 duration);
+
+    void downloadCoverFromMedia(QMediaContent media);
+
+    void extractCoverFromMedia(QNetworkReply *);
 
 private:
 

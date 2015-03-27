@@ -1,5 +1,12 @@
 #include "mediacomponent.h"
 
+#include <QTemporaryFile>
+#include <QNetworkAccessManager>
+
+#include <taglib/mpegfile.h>
+#include <taglib/id3v2tag.h>
+#include <taglib/attachedpictureframe.h>
+
 MediaComponent::MediaComponent(QObject *parent) : QObject(parent), player_(new QMediaPlayer(this)),
     playlist_(new QMediaPlaylist(this)), duration_(0), model_(new QStandardItemModel(this))
 {
@@ -7,6 +14,7 @@ MediaComponent::MediaComponent(QObject *parent) : QObject(parent), player_(new Q
     setVolume(100);
     setPlaybackMode(QMediaPlaylist::Loop);
 
+    connect(playlist_, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(downloadCoverFromMedia(QMediaContent)));
     connect(player_, &QMediaPlayer::durationChanged, this, &MediaComponent::setDuration);
 }
 
@@ -137,4 +145,52 @@ void MediaComponent::clearPlaylist()
 void MediaComponent::setDuration(qint64 duration)
 {
     duration_ = duration / 1000;
+}
+
+void MediaComponent::downloadCoverFromMedia(QMediaContent media)
+{
+    QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &MediaComponent::extractCoverFromMedia);
+    QNetworkRequest networkRequest(media.canonicalUrl());
+    QNetworkReply *reply = networkManager->get(networkRequest);
+}
+
+void MediaComponent::extractCoverFromMedia(QNetworkReply *reply)
+{
+    emit coverExtracted(QPixmap());
+
+    QTemporaryFile mediaFile;
+    if (mediaFile.open())
+    {
+        mediaFile.write(reply->readAll());
+        mediaFile.flush();
+        mediaFile.close();
+        TagLib::MPEG::File file(mediaFile.fileName().toStdString().c_str());
+
+        TagLib::ID3v2::Tag *tag = file.ID3v2Tag();
+        if(tag)
+        {
+            TagLib::ID3v2::FrameList frames = tag->frameListMap()["APIC"];
+            if(!frames.isEmpty())
+            {
+                TagLib::ID3v2::AttachedPictureFrame *pictureFrame = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(frames.front());
+
+                if (pictureFrame)
+                {
+                    std::string format;
+                    TagLib::String const mimeType = pictureFrame->mimeType();
+                    if (mimeType == "image/jpeg")
+                        format = "JPEG";
+                    else if (mimeType == "image/png")
+                        format = "PNG";
+                    if(!format.empty())
+                    {
+                        QPixmap coverPixmap;
+                        coverPixmap.loadFromData((uchar*)pictureFrame->picture().data(), pictureFrame->picture().size(), format.c_str());
+                        emit coverExtracted(coverPixmap);
+                    }
+                }
+            }
+        }
+    }
 }

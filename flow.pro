@@ -13,6 +13,8 @@ TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++11
 
+LIBS += -ltag
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     mediacomponent.cpp \

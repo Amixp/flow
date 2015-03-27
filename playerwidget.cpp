@@ -227,15 +227,21 @@ void PlayerWidget::forward()
 
 void PlayerWidget::stateChanged(QMediaPlayer::State state)
 {
+    QAction * const playPauseAction = trayIcon_->contextMenu()->actions().at(SystemTrayControl::PlayPause);
+
     if(state == QMediaPlayer::PlayingState)
     {
         ui->playPauseButton->setIcon(QIcon(":/icons/pause.png"));
         ui->playPauseButton->setToolTip("Pause");
+        playPauseAction->setIcon(QIcon(":/icons/pause.png"));
+        playPauseAction->setText("Pause");
     }
     else if (state == QMediaPlayer::PausedState || state ==QMediaPlayer::StoppedState)
     {
         ui->playPauseButton->setIcon(QIcon(":/icons/play.png"));
         ui->playPauseButton->setToolTip("Play");
+        playPauseAction->setIcon(QIcon(":/icons/play.png"));
+        playPauseAction->setText("Play");
     }
 }
 
@@ -359,26 +365,31 @@ void PlayerWidget::initSystemTrayMenu()
     connect(trayIcon_, &QSystemTrayIcon::activated, this, &PlayerWidget::showFromTray);
 
     QAction *showAction = new QAction("Show", this);
+    showAction->setIcon(QIcon(":icons/show.png"));
     connect(showAction, &QAction::triggered, this, &PlayerWidget::show);
     trayMenu->addAction(showAction);
 
     trayMenu->addSeparator();
 
-    QAction *playPauseAction = new QAction("Play/Pause", this);
+    QAction *playPauseAction = new QAction("Play", this);
+    playPauseAction->setIcon(QIcon(":icons/play.png"));
     connect(playPauseAction, &QAction::triggered, this, &PlayerWidget::solvePlayPauseAction);
     trayMenu->addAction(playPauseAction);
 
     QAction *rewindAction = new QAction("Rewind", this);
+    rewindAction->setIcon(QIcon(":icons/rewind.png"));
     connect(rewindAction, &QAction::triggered, this, &PlayerWidget::rewind);
     trayMenu->addAction(rewindAction);
 
     QAction *forwardAction = new QAction("Forward", this);
+    forwardAction->setIcon(QIcon(":icons/forward.png"));
     connect(forwardAction, &QAction::triggered, this, &PlayerWidget::forward);
     trayMenu->addAction(forwardAction);
 
     trayMenu->addSeparator();
 
     QAction *exitAction = new QAction("Exit", this);
+    exitAction->setIcon(QIcon(":icons/exit.png"));
     connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::exit);
     trayMenu->addAction(exitAction);
 

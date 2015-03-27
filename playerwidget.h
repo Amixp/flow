@@ -78,6 +78,15 @@ class PlayerWidget : public QWidget
         Duration
     };
 
+    enum SystemTrayControl
+    {
+        Show,
+        PlayPause,
+        Rewind,
+        Forward,
+        Exit
+    };
+
 public:
     explicit PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *parent = 0);
     ~PlayerWidget();

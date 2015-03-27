@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>386</width>
+    <width>410</width>
     <height>335</height>
    </rect>
   </property>
@@ -64,6 +64,9 @@
      <widget class="Line" name="line_3">
       <property name="styleSheet">
        <string notr="true">color: rgb(201, 201, 201);</string>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>

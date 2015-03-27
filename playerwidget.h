@@ -80,11 +80,11 @@ class PlayerWidget : public QWidget
 
     enum SystemTrayControl
     {
-        Show,
-        PlayPause,
-        Rewind,
-        Forward,
-        Exit
+        Show = 0,
+        PlayPause = 2,
+        Rewind = 3,
+        Forward = 4,
+        Exit = 6
     };
 
 public:

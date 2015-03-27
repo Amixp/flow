@@ -386,32 +386,6 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="shuffleButton">
-        <property name="toolTip">
-         <string>Shuffle</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="icons.qrc">
-          <normaloff>:/icons/shuffle.png</normaloff>:/icons/shuffle.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
        <layout class="QGridLayout" name="gridLayout">
         <property name="horizontalSpacing">
          <number>6</number>
@@ -532,6 +506,32 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="shuffleButton">
+        <property name="toolTip">
+         <string>Shuffle</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="icons.qrc">
+          <normaloff>:/icons/shuffle.png</normaloff>:/icons/shuffle.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>28</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="loopButton">

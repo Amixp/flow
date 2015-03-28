@@ -262,6 +262,7 @@ void PlayerWidget::search()
     query.artist = false;
     query.text = ui->searchEdit->text();
     api_->requestPlaylistBySearchQuery(query);
+    ui->playlistTableView->setModel(model_);
 
     if (ui->musicMenuListWidget->count() != MusicMenu::Count)
         setSearchResultsMenuVisible(true);

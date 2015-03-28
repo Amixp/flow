@@ -1,6 +1,7 @@
 #include "playerwidget.h"
 #include "ui_playerwidget.h"
 
+#include <QDesktopWidget>
 #include <QFileDialog>
 #include <QButtonGroup>
 #include <QMenu>
@@ -8,6 +9,7 @@
 #include <QMediaPlaylist>
 
 static const int SYSTEM_TRAY_MESSAGE_TIMEOUT_HINT = 3000;
+static const QSize ALBUM_ART_SIZE(512, 512);
 
 PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *parent) :
     QWidget(parent),
@@ -29,7 +31,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     ui->playlistTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->playlistTableView->horizontalHeader()->setVisible(false);
 
-    connect(media_, &MediaComponent::coverExtracted, ui->coverLabel, &QLabel::setPixmap);
+    connect(media_, &MediaComponent::albumArtExtracted, ui->albumArtLabel, &QLabel::setPixmap);
     connect(api_, &ApiComponent::playlistReceived, this, &PlayerWidget::setPlaylist);
     connect(this, &PlayerWidget::playlistCleared, media_, &MediaComponent::clearPlaylist);
     connect(this, &PlayerWidget::playlistItemAdded, media_, &MediaComponent::addItemToPlaylist);
@@ -42,6 +44,8 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(ui->playPauseButton, &QPushButton::clicked, this, &PlayerWidget::solvePlayPauseAction);
     connect(ui->rewindButton, &QPushButton::clicked, this, &PlayerWidget::rewind);
     connect(ui->forwardButton, &QPushButton::clicked, this, &PlayerWidget::forward);
+
+    connect(ui->albumArtLabel, &ClickableLabel::clicked, this, &PlayerWidget::showFullSizeAlbumArt);
 
     connect(ui->shuffleButton, &QPushButton::clicked, this, &PlayerWidget::solvePlaybackMode);
     connect(ui->loopButton, &QPushButton::clicked, this, &PlayerWidget::solvePlaybackMode);
@@ -293,6 +297,23 @@ void PlayerWidget::setSearchResultsMenuVisible(bool visible)
             delete item;
     }
 
+}
+
+void PlayerWidget::showFullSizeAlbumArt()
+{
+    QPixmap const * albumArt = ui->albumArtLabel->pixmap();
+    if (!albumArt->size().isNull())
+    {
+        QLabel *albumArtLabel = new QLabel();
+        albumArtLabel->setWindowTitle("[Album Art] " + ui->titleLabel->text());
+        albumArtLabel->setWindowIcon(QIcon(":icons/logo.png"));
+        albumArtLabel->setWindowModality(Qt::ApplicationModal);
+        albumArtLabel->setScaledContents(true);
+        albumArtLabel->setPixmap(*albumArt);
+        albumArtLabel->setFixedSize(ALBUM_ART_SIZE);
+        albumArtLabel->move(QApplication::desktop()->screen()->rect().center() - albumArtLabel->rect().center());
+        albumArtLabel->show();
+    }
 }
 
 void PlayerWidget::on_musicMenuListWidget_clicked(const QModelIndex &index)

@@ -135,6 +135,8 @@ private slots:
 
     void setSearchResultsMenuVisible(bool visible);
 
+    void showFullSizeAlbumArt();
+
 
 
     void on_musicMenuListWidget_clicked(const QModelIndex &index);

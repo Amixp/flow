@@ -49,14 +49,14 @@ public slots:
     void clearPlaylist();
 
 signals:
-    void coverExtracted(const QPixmap&);
+    void albumArtExtracted(const QPixmap&);
 
 private slots:
     void setDuration(qint64 duration);
 
-    void downloadCoverFromMedia(QMediaContent media);
+    void downloadAlbumArtFromMedia(QMediaContent media);
 
-    void extractCoverFromMedia(QNetworkReply *);
+    void extractAlbumArtFromMedia(QNetworkReply *);
 
 private:
 

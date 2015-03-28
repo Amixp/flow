@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>768</width>
+    <width>770</width>
     <height>615</height>
    </rect>
   </property>
@@ -386,27 +386,33 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="coverLabel">
+       <widget class="ClickableLabel" name="albumArtLabel">
         <property name="minimumSize">
          <size>
-          <width>34</width>
-          <height>34</height>
+          <width>36</width>
+          <height>36</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>34</width>
-          <height>34</height>
+          <width>36</width>
+          <height>36</height>
          </size>
         </property>
         <property name="styleSheet">
          <string notr="true">border: 1px solid rgb(201, 201, 201);</string>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -1155,7 +1161,7 @@ background-color: rgb(255, 255, 255)
   <customwidget>
    <class>ClickableLabel</class>
    <extends>QLabel</extends>
-   <header>playerwidget.h</header>
+   <header location="global">playerwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

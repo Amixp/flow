@@ -14,7 +14,7 @@ MediaComponent::MediaComponent(QObject *parent) : QObject(parent), player_(new Q
     setVolume(100);
     setPlaybackMode(QMediaPlaylist::Loop);
 
-    connect(playlist_, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(downloadCoverFromMedia(QMediaContent)));
+    connect(playlist_, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(downloadAlbumArtFromMedia(QMediaContent)));
     connect(player_, &QMediaPlayer::durationChanged, this, &MediaComponent::setDuration);
 }
 
@@ -147,17 +147,17 @@ void MediaComponent::setDuration(qint64 duration)
     duration_ = duration / 1000;
 }
 
-void MediaComponent::downloadCoverFromMedia(QMediaContent media)
+void MediaComponent::downloadAlbumArtFromMedia(QMediaContent media)
 {
     QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
-    connect(networkManager, &QNetworkAccessManager::finished, this, &MediaComponent::extractCoverFromMedia);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &MediaComponent::extractAlbumArtFromMedia);
     QNetworkRequest networkRequest(media.canonicalUrl());
     QNetworkReply *reply = networkManager->get(networkRequest);
 }
 
-void MediaComponent::extractCoverFromMedia(QNetworkReply *reply)
+void MediaComponent::extractAlbumArtFromMedia(QNetworkReply *reply)
 {
-    emit coverExtracted(QPixmap());
+    emit albumArtExtracted(QPixmap());
 
     QTemporaryFile mediaFile;
     if (mediaFile.open())
@@ -185,9 +185,9 @@ void MediaComponent::extractCoverFromMedia(QNetworkReply *reply)
                         format = "PNG";
                     if(!format.empty())
                     {
-                        QPixmap coverPixmap;
-                        coverPixmap.loadFromData((uchar*)pictureFrame->picture().data(), pictureFrame->picture().size(), format.c_str());
-                        emit coverExtracted(coverPixmap);
+                        QPixmap albumArtPixmap;
+                        albumArtPixmap.loadFromData((uchar*)pictureFrame->picture().data(), pictureFrame->picture().size(), format.c_str());
+                        emit albumArtExtracted(albumArtPixmap);
                     }
                 }
             }

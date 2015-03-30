@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>772</width>
+    <width>791</width>
     <height>615</height>
    </rect>
   </property>
@@ -302,13 +302,13 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
        <number>3</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="rightMargin">
        <number>3</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>3</number>
       </property>
       <item>
        <widget class="QPushButton" name="rewindButton">
@@ -402,6 +402,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         <property name="styleSheet">
          <string notr="true">border: 1px solid rgb(201, 201, 201);</string>
         </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
         <property name="lineWidth">
          <number>0</number>
         </property>
@@ -414,12 +417,15 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
        </widget>
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
         <property name="horizontalSpacing">
-         <number>6</number>
+         <number>9</number>
         </property>
         <property name="verticalSpacing">
          <number>0</number>
@@ -552,8 +558,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>28</width>
+          <height>28</height>
          </size>
         </property>
         <property name="checkable">
@@ -581,8 +587,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>28</width>
+          <height>28</height>
          </size>
         </property>
         <property name="checkable">
@@ -609,7 +615,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <property name="spacing">
-         <number>0</number>
+         <number>9</number>
         </property>
         <item>
          <spacer name="horizontalSpacer_3">

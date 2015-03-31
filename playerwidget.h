@@ -26,12 +26,12 @@ public:
     ~ClickableLabel() {}
 
 signals:
-    void clicked();
+    void clicked(const QString&);
 
 protected:
     void mousePressEvent(QMouseEvent */*event*/)
     {
-        emit clicked();
+        emit clicked(text());
     }
 };
 
@@ -74,7 +74,8 @@ class PlayerWidget : public QWidget
 
     enum PlaylistColumn
     {
-        ArtistAndTitle,
+        Artist,
+        Title,
         Duration
     };
 
@@ -85,6 +86,12 @@ class PlayerWidget : public QWidget
         Rewind = 3,
         Forward = 4,
         Exit = 6
+    };
+
+    enum SearchType
+    {
+        ByTitle,
+        ByArtist
     };
 
 public:
@@ -123,7 +130,7 @@ private slots:
 
     void changeVolume(int volume);
 
-    void search();
+    void searchBySearch();
 
     void solvePlaybackMode();
 
@@ -136,6 +143,14 @@ private slots:
     void setSearchResultsMenuVisible(bool visible);
 
     void showFullSizeAlbumArt();
+
+    void search(const QString& text, bool artist);
+
+    void searchByArtist(const QString& artist = QString());
+
+    void searchByTitle(const QString& title = QString());
+
+    void changeSearchType(int type);
 
 
 
@@ -160,7 +175,7 @@ private:
 
     void fillMusicSubMenuByGenres();
 
-    void showCurrentPlayItemText(const QString& title);
+    void showCurrentPlayItemText(const QString& artist, const QString& title);
 
     void clear();
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>791</width>
-    <height>615</height>
+    <width>888</width>
+    <height>687</height>
    </rect>
   </property>
   <property name="palette">
@@ -298,13 +298,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
       </property>
-      <property name="leftMargin">
-       <number>3</number>
-      </property>
       <property name="topMargin">
-       <number>3</number>
-      </property>
-      <property name="rightMargin">
        <number>3</number>
       </property>
       <property name="bottomMargin">
@@ -389,14 +383,14 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
        <widget class="ClickableLabel" name="albumArtLabel">
         <property name="minimumSize">
          <size>
-          <width>36</width>
-          <height>36</height>
+          <width>38</width>
+          <height>38</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>36</width>
-          <height>36</height>
+          <width>38</width>
+          <height>38</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -433,13 +427,57 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         <item row="0" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <property name="spacing">
-           <number>32</number>
+           <number>0</number>
           </property>
           <property name="leftMargin">
            <number>3</number>
           </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <item>
+           <widget class="ClickableLabel" name="artistLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="dashLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string> ‒ </string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="ClickableLabel" name="titleLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="font">
              <font>
               <pointsize>9</pointsize>
@@ -470,22 +508,30 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
            </spacer>
           </item>
           <item>
-           <widget class="ClickableLabel" name="durationLabel">
-            <property name="font">
-             <font>
-              <pointsize>8</pointsize>
-             </font>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="spacing">
+             <number>0</number>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="text">
-             <string>0:00</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
+            <item>
+             <widget class="ClickableLabel" name="progressLabel">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+              </property>
+              <property name="text">
+               <string>0:00</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="indent">
+               <number>-3</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -667,11 +713,6 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
             <height>16777215</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
           <property name="styleSheet">
            <string notr="true">border: 1px solid rgb(201, 201, 201);;
 background-color: rgb(255, 255, 255);</string>
@@ -682,29 +723,20 @@ background-color: rgb(255, 255, 255);</string>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="searchButton">
-          <property name="toolTip">
-           <string>Search</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons.qrc">
-            <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>28</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="checkable">
+         <widget class="QComboBox" name="searchComboBox">
+          <property name="frame">
            <bool>false</bool>
           </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
+          <item>
+           <property name="text">
+            <string>by title</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>by artist</string>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>

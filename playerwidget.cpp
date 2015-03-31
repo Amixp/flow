@@ -36,8 +36,8 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(this, &PlayerWidget::playlistCleared, media_, &MediaComponent::clearPlaylist);
     connect(this, &PlayerWidget::playlistItemAdded, media_, &MediaComponent::addItemToPlaylist);
 
-    connect(ui->searchEdit, &QLineEdit::returnPressed, this, &PlayerWidget::search);
-    connect(ui->searchButton, &QPushButton::clicked, this, &PlayerWidget::search);
+    connect(ui->searchEdit, &QLineEdit::returnPressed, this, &PlayerWidget::searchBySearch);
+    connect(ui->searchComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeSearchType(int)));
 
     connect(this, &PlayerWidget::requestedPopularByGenre, api_, &ApiComponent::requestPopularPlaylistByGenre);
 
@@ -46,6 +46,7 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
     connect(ui->forwardButton, &QPushButton::clicked, this, &PlayerWidget::forward);
 
     connect(ui->albumArtLabel, &ClickableLabel::clicked, this, &PlayerWidget::showFullSizeAlbumArt);
+    connect(ui->artistLabel, &ClickableLabel::clicked, this, &PlayerWidget::searchByArtist);
 
     connect(ui->shuffleButton, &QPushButton::clicked, this, &PlayerWidget::solvePlaybackMode);
     connect(ui->loopButton, &QPushButton::clicked, this, &PlayerWidget::solvePlaybackMode);
@@ -107,7 +108,12 @@ void PlayerWidget::addItem(const ApiComponent::PlaylistItem &item)
     int const rowCount = model_->rowCount();
     model_->insertRow(rowCount);
 
-    model_->setItem(rowCount, ArtistAndTitle, new QStandardItem(item[ApiComponent::Artist] + " - " + item[ApiComponent::Title]));
+    QFont artistFont(ui->playlistTableView->font());
+    artistFont.setBold(true);
+    QStandardItem *artistItem = new QStandardItem(item[ApiComponent::Artist]);
+    artistItem->setFont(artistFont);
+    model_->setItem(rowCount, Artist, artistItem);
+    model_->setItem(rowCount, Title, new QStandardItem(item[ApiComponent::Title]));
     QStandardItem* durationItem = new QStandardItem(convertSecondsToTimeString(item[ApiComponent::Duration].toInt()));
     durationItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     model_->setItem(rowCount, Duration, durationItem);
@@ -135,11 +141,13 @@ void PlayerWidget::playIndex(const QModelIndex &index)
     emit startedPlaying(currentIndex);
 }
 
-void PlayerWidget::showCurrentPlayItemText(const QString& title)
+void PlayerWidget::showCurrentPlayItemText(const QString& artist, const QString& title)
 {
+    ui->artistLabel->setText(artist);
     ui->titleLabel->setText(title);
-    trayIcon_->setToolTip(title);
-    trayIcon_->showMessage("Now playing", title, QSystemTrayIcon::Information, SYSTEM_TRAY_MESSAGE_TIMEOUT_HINT);
+    QString const playItemText = artist + ui->dashLabel->text() + title;
+    trayIcon_->setToolTip(playItemText);
+    trayIcon_->showMessage("Now playing", playItemText, QSystemTrayIcon::Information, SYSTEM_TRAY_MESSAGE_TIMEOUT_HINT);
 }
 
 void PlayerWidget::currentPlayItemChanged(int position)
@@ -150,12 +158,12 @@ void PlayerWidget::currentPlayItemChanged(int position)
         return;
     }
 
-    QString const title = media_->model()->item(position, ArtistAndTitle)->text();
+    QStandardItemModel * const model = media_->model();
 
     if (stillCurrentPlaylist_)
         ui->playlistTableView->selectRow(position);
 
-    showCurrentPlayItemText(title);
+    showCurrentPlayItemText(model->item(position, Artist)->text(), model->item(position, Title)->text());
 }
 
 void PlayerWidget::playbackModeChanged(QAction *action)
@@ -186,10 +194,8 @@ void PlayerWidget::positionChanged(qint64 progress)
 
 void PlayerWidget::updatePositionInfo(qint64 progress)
 {
-    int const estimatedDuration = media_->duration() - progress;
-    QString const duration = convertSecondsToTimeString(estimatedDuration);
-
-    ui->durationLabel->setText("-" + duration);
+    QString const progressString = convertSecondsToTimeString(progress);
+    ui->progressLabel->setText(progressString);
 }
 
 void PlayerWidget::seek(int seconds)
@@ -256,18 +262,9 @@ void PlayerWidget::stateChanged(QMediaPlayer::State state)
     }
 }
 
-void PlayerWidget::search()
+void PlayerWidget::searchBySearch()
 {   
-    ApiComponent::SearchQuery query;
-    query.artist = false;
-    query.text = ui->searchEdit->text();
-    api_->requestPlaylistBySearchQuery(query);
-    ui->playlistTableView->setModel(model_);
-
-    if (ui->musicMenuListWidget->count() != MusicMenu::Count)
-        setSearchResultsMenuVisible(true);
-
-    ui->musicSubMenuListWidget->clear();
+    search(ui->searchEdit->text(), ui->searchComboBox->currentIndex());
 }
 
 void PlayerWidget::solvePlaybackMode()
@@ -306,7 +303,8 @@ void PlayerWidget::showFullSizeAlbumArt()
     if (!albumArt->size().isNull())
     {
         QLabel *albumArtLabel = new QLabel();
-        albumArtLabel->setWindowTitle("[Album Art] " + ui->titleLabel->text());
+        albumArtLabel->setWindowTitle(ui->artistLabel->text() + ui->dashLabel->text() + ui->titleLabel->text());
+        albumArtLabel->setWindowFlags(Qt::Dialog);
         albumArtLabel->setWindowIcon(QIcon(":icons/logo.png"));
         albumArtLabel->setWindowModality(Qt::ApplicationModal);
         albumArtLabel->setScaledContents(true);
@@ -314,6 +312,48 @@ void PlayerWidget::showFullSizeAlbumArt()
         albumArtLabel->setFixedSize(ALBUM_ART_SIZE);
         albumArtLabel->move(QApplication::desktop()->screen()->rect().center() - albumArtLabel->rect().center());
         albumArtLabel->show();
+    }
+}
+
+void PlayerWidget::search(const QString &text, bool artist)
+{
+    ApiComponent::SearchQuery query;
+    query.artist = artist;
+    query.text = text.isEmpty() ? ui->searchEdit->text() : text;
+
+    api_->requestPlaylistBySearchQuery(query);
+    ui->searchEdit->setText(query.text);
+    ui->searchComboBox->setCurrentIndex(artist);
+    ui->playlistTableView->setModel(model_);
+
+    if (ui->musicMenuListWidget->count() != MusicMenu::Count)
+        setSearchResultsMenuVisible(true);
+
+    ui->musicSubMenuListWidget->clear();
+}
+
+void PlayerWidget::searchByArtist(const QString &artist)
+{
+    search(artist, true);
+}
+
+void PlayerWidget::searchByTitle(const QString &title)
+{
+    search(title, false);
+}
+
+void PlayerWidget::changeSearchType(int type)
+{
+    QString const searchText = ui->searchEdit->text();
+    switch (type) {
+    case ByTitle:
+        searchByTitle(searchText);
+        break;
+    case ByArtist:
+        searchByArtist(searchText);
+        break;
+    default:
+        break;
     }
 }
 

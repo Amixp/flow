@@ -321,8 +321,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>20</width>
+          <height>20</height>
          </size>
         </property>
         <property name="flat">
@@ -344,8 +344,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>20</width>
+          <height>20</height>
          </size>
         </property>
         <property name="flat">
@@ -370,8 +370,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>20</width>
+          <height>20</height>
          </size>
         </property>
         <property name="flat">
@@ -394,7 +394,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">border: 1px solid rgb(201, 201, 201);</string>
+         <string notr="true">border: 1px solid rgb(191, 191, 191);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
@@ -518,7 +518,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
             <item>
              <widget class="ClickableLabel" name="progressLabel">
               <property name="styleSheet">
-               <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+               <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgb(191, 191, 191);</string>
               </property>
               <property name="text">
                <string>0:00</string>
@@ -604,8 +605,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>20</width>
+          <height>20</height>
          </size>
         </property>
         <property name="checkable">
@@ -629,12 +630,12 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="icon">
          <iconset resource="icons.qrc">
-          <normaloff>:/icons/repeat.png</normaloff>:/icons/repeat.png</iconset>
+          <normaloff>:/icons/loop.png</normaloff>:/icons/loop.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>20</width>
+          <height>20</height>
          </size>
         </property>
         <property name="checkable">
@@ -661,7 +662,7 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <property name="spacing">
-         <number>9</number>
+         <number>0</number>
         </property>
         <item>
          <spacer name="horizontalSpacer_3">
@@ -690,8 +691,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
           </property>
           <property name="iconSize">
            <size>
-            <width>28</width>
-            <height>28</height>
+            <width>20</width>
+            <height>20</height>
            </size>
           </property>
           <property name="flat">
@@ -745,12 +746,12 @@ background-color: rgb(255, 255, 255);</string>
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <layout class="QHBoxLayout" name="playlistLayout">
      <property name="spacing">
       <number>0</number>
      </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <layout class="QVBoxLayout" name="playlistMenuLayout">
        <property name="spacing">
         <number>6</number>
        </property>
@@ -779,9 +780,12 @@ background-color: rgb(255, 255, 255);</string>
          </property>
          <property name="maximumSize">
           <size>
-           <width>135</width>
+           <width>143</width>
            <height>125</height>
           </size>
+         </property>
+         <property name="cursor" stdset="0">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="autoFillBackground">
           <bool>false</bool>
@@ -887,7 +891,7 @@ QListWidget::item {
          </property>
          <property name="maximumSize">
           <size>
-           <width>135</width>
+           <width>143</width>
            <height>16777215</height>
           </size>
          </property>
@@ -895,6 +899,9 @@ QListWidget::item {
           <font>
            <pointsize>9</pointsize>
           </font>
+         </property>
+         <property name="cursor" stdset="0">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true">QListWidget {

@@ -145,7 +145,9 @@ void PlayerWidget::showCurrentPlayItemText(const QString& artist, const QString&
 {
     ui->artistLabel->setText(artist);
     ui->titleLabel->setText(title);
-    QString const playItemText = artist + ui->dashLabel->text() + title;
+    QString const dash = ui->dashLabel->text();
+    QString const playItemText = artist + dash + title;
+    setWindowTitle(playItemText + dash + "Flow");
     trayIcon_->setToolTip(playItemText);
     trayIcon_->showMessage("Now playing", playItemText, QSystemTrayIcon::Information, SYSTEM_TRAY_MESSAGE_TIMEOUT_HINT);
 }

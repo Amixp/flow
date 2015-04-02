@@ -4,12 +4,12 @@
         <file>icons/logo.png</file>
         <file>icons/pause.png</file>
         <file>icons/play.png</file>
-        <file>icons/repeat.png</file>
         <file>icons/rewind.png</file>
         <file>icons/shuffle.png</file>
         <file>icons/vkontakte.png</file>
         <file>icons/clear_search.png</file>
         <file>icons/exit.png</file>
         <file>icons/show.png</file>
+        <file>icons/loop.png</file>
     </qresource>
 </RCC>

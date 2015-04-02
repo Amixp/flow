@@ -16,6 +16,8 @@ namespace Ui {
 class PlayerWidget;
 }
 
+class QTreeWidgetItem;
+
 class ClickableLabel : public QLabel
 {
     Q_OBJECT
@@ -140,7 +142,6 @@ private slots:
 
     void forward();
 
-    void setSearchResultsMenuVisible(bool visible);
 
     void showFullSizeAlbumArt();
 
@@ -152,11 +153,8 @@ private slots:
 
     void changeSearchType(int type);
 
+    void changePlaylistMenuMode();
 
-
-    void on_musicMenuListWidget_clicked(const QModelIndex &index);
-
-    void on_musicSubMenuListWidget_clicked(const QModelIndex &index);
 
     void on_clearSearchTextButton_clicked();
 
@@ -173,11 +171,9 @@ private:
 
     void initSystemTrayMenu();
 
-    void fillMusicSubMenuByGenres();
-
     void showCurrentPlayItemText(const QString& artist, const QString& title);
 
-    void clear();
+    void clearPlaylist();
 
     void addItem(const ApiComponent::PlaylistItem& item);
 

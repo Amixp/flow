@@ -321,8 +321,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>22</width>
+          <height>22</height>
          </size>
         </property>
         <property name="flat">
@@ -344,8 +344,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>22</width>
+          <height>22</height>
          </size>
         </property>
         <property name="flat">
@@ -370,8 +370,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>22</width>
+          <height>22</height>
          </size>
         </property>
         <property name="flat">
@@ -751,397 +751,173 @@ background-color: rgb(255, 255, 255);</string>
       <number>0</number>
      </property>
      <item>
-      <layout class="QVBoxLayout" name="playlistMenuLayout">
-       <property name="spacing">
-        <number>6</number>
+      <widget class="QTreeWidget" name="playlistMenuTreeWidget">
+       <property name="maximumSize">
+        <size>
+         <width>161</width>
+         <height>16777215</height>
+        </size>
        </property>
-       <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
+       <property name="cursor" stdset="0">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
-       <property name="leftMargin">
-        <number>6</number>
-       </property>
-       <property name="topMargin">
-        <number>6</number>
-       </property>
-       <property name="rightMargin">
-        <number>6</number>
-       </property>
-       <property name="bottomMargin">
-        <number>6</number>
-       </property>
-       <item>
-        <widget class="QListWidget" name="musicMenuListWidget">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>143</width>
-           <height>125</height>
-          </size>
-         </property>
-         <property name="cursor" stdset="0">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QListWidget {
+       <property name="styleSheet">
+        <string notr="true">QTreeWidget {
 background-color: rgb(255, 255, 255, 0);
 }
 
-QListWidget::item {
+QTreeWidget::item {
  padding: 3px 0px 3px 0px;
 }</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-         <property name="alternatingRowColors">
-          <bool>false</bool>
-         </property>
-         <property name="selectionBehavior">
-          <enum>QAbstractItemView::SelectRows</enum>
-         </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="uniformItemSizes">
-          <bool>true</bool>
-         </property>
-         <property name="selectionRectVisible">
-          <bool>true</bool>
-         </property>
-         <property name="currentRow">
-          <number>-1</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>Current playlist</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>My music</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Suggested music</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Popular music</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-        </widget>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="indentation">
+        <number>16</number>
+       </property>
+       <property name="rootIsDecorated">
+        <bool>true</bool>
+       </property>
+       <property name="uniformRowHeights">
+        <bool>true</bool>
+       </property>
+       <property name="animated">
+        <bool>true</bool>
+       </property>
+       <property name="expandsOnDoubleClick">
+        <bool>true</bool>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string/>
+        </property>
+       </column>
+       <item>
+        <property name="text">
+         <string>Current playlist</string>
+        </property>
        </item>
        <item>
-        <widget class="Line" name="line">
-         <property name="styleSheet">
-          <string notr="true">color: rgb(201, 201, 201);</string>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
+        <property name="text">
+         <string>My music</string>
+        </property>
        </item>
        <item>
-        <widget class="QListWidget" name="musicSubMenuListWidget">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>143</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-          </font>
-         </property>
-         <property name="cursor" stdset="0">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QListWidget {
-background-color: rgb(255, 255, 255, 0);
-}
-
-QListWidget::item {
- padding: 3px 0px 3px 0px;
-}</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-         <property name="alternatingRowColors">
-          <bool>false</bool>
-         </property>
-         <property name="selectionBehavior">
-          <enum>QAbstractItemView::SelectRows</enum>
-         </property>
-         <property name="uniformItemSizes">
-          <bool>true</bool>
-         </property>
-         <property name="selectionRectVisible">
-          <bool>true</bool>
-         </property>
-         <property name="currentRow">
-          <number>-1</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>Rock</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Pop</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Rap &amp; Hip-Hop</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Easy Listening</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Dance &amp; House</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Instrumental</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Metal</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Alternative</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Dubstep</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Jazz &amp; Blues</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Drum &amp; Bass</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Trance</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Chanson</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Ethnic</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Acoustic &amp; Vocal</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Reggae</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Classical</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Indie Pop</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Speech</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Electropop &amp; Disco</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Other</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </item>
-        </widget>
+        <property name="text">
+         <string>Suggested music</string>
+        </property>
        </item>
-      </layout>
+       <item>
+        <property name="text">
+         <string>Popular music</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Rock</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Pop</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Rap &amp; Hip-Hop</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>House &amp; Dance</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Alternative</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Instrumental</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Easy Listening</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Metal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dubstep &amp; Trap</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Indie Pop</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Jazz &amp; Blues</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Drum &amp; Bass</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Trance</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ethnic</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Acoustic &amp; Vocal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Reggae</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Classical</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Electropop &amp; Disco</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Search results</string>
+        </property>
+       </item>
+      </widget>
      </item>
      <item>
-      <widget class="Line" name="line_2">
+      <widget class="Line" name="line">
        <property name="styleSheet">
         <string notr="true">color: rgb(201, 201, 201);</string>
        </property>

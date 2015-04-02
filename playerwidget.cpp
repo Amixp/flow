@@ -25,11 +25,14 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
 
     initSystemTrayMenu();
 
-    ui->musicSubMenuListWidget->clear();
+    ui->playlistMenuTreeWidget->topLevelItem(SearchResults)->setHidden(true);
+    ui->playlistMenuTreeWidget->setCurrentItem(ui->playlistMenuTreeWidget->topLevelItem(MyMusic));
 
     ui->playlistTableView->setModel(model_);
     ui->playlistTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->playlistTableView->horizontalHeader()->setVisible(false);
+
+    connect(ui->playlistMenuTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(changePlaylistMenuMode()));
 
     connect(media_, &MediaComponent::albumArtExtracted, ui->albumArtLabel, &QLabel::setPixmap);
     connect(api_, &ApiComponent::playlistReceived, this, &PlayerWidget::setPlaylist);
@@ -72,7 +75,7 @@ void PlayerWidget::setPlaylist(const ApiComponent::Playlist& playlist)
 {
     stillCurrentPlaylist_ = false;
 
-    clear();
+    clearPlaylist();
 
     foreach (const ApiComponent::PlaylistItem& item, playlist)
         addItem(item);
@@ -97,7 +100,7 @@ void PlayerWidget::show()
     QWidget::show();
 }
 
-void PlayerWidget::clear()
+void PlayerWidget::clearPlaylist()
 {
     model_->removeRows(0, model_->rowCount());
     playlist_->clear();
@@ -123,9 +126,11 @@ void PlayerWidget::addItem(const ApiComponent::PlaylistItem &item)
 
 QString PlayerWidget::convertSecondsToTimeString(int seconds)
 {
-    QTime time(seconds/3600, seconds/60, seconds % 60);
-    QString const format = seconds > 3600 ? "hh:mm:ss" :"mm:ss";
-    return time.toString(format);
+//    qDebug() << "Total seconds : " << seconds;
+//    qDebug() << "Time: " << seconds / 3600 << ":" << seconds / 60 << ":" << seconds % 60;
+//    QTime time(seconds/3600, seconds/60, seconds % 60);
+    QString const format = seconds >= 3600 ? "hh:mm:ss" :"mm:ss";
+    return QDateTime::fromTime_t(seconds).toUTC().toString(format);
 }
 
 void PlayerWidget::playIndex(const QModelIndex &index)
@@ -154,12 +159,6 @@ void PlayerWidget::showCurrentPlayItemText(const QString& artist, const QString&
 
 void PlayerWidget::currentPlayItemChanged(int position)
 {
-    if (position == -1)
-    {
-        media_->pause();
-        return;
-    }
-
     QStandardItemModel * const model = media_->model();
 
     if (stillCurrentPlaylist_)
@@ -171,6 +170,7 @@ void PlayerWidget::currentPlayItemChanged(int position)
 void PlayerWidget::playbackModeChanged(QAction *action)
 {
     QString const playbackMode = action->text();
+
     if (playbackMode == "Shuffle")
         media_->setPlaybackMode(QMediaPlaylist::Random);
     if (playbackMode == "Repeat Single")
@@ -283,22 +283,6 @@ void PlayerWidget::solvePlaybackMode()
     else media_->setPlaybackMode(QMediaPlaylist::Loop);
 }
 
-void PlayerWidget::setSearchResultsMenuVisible(bool visible)
-{
-    if (visible)
-    {
-        ui->musicMenuListWidget->insertItem(SearchResults, "Search results");
-        ui->musicMenuListWidget->setCurrentRow(SearchResults);
-    }
-    else
-    {
-        QListWidgetItem *item = ui->musicMenuListWidget->item(SearchResults);
-        if (item)
-            delete item;
-    }
-
-}
-
 void PlayerWidget::showFullSizeAlbumArt()
 {
     QPixmap const * albumArt = ui->albumArtLabel->pixmap();
@@ -328,10 +312,9 @@ void PlayerWidget::search(const QString &text, bool artist)
     ui->searchComboBox->setCurrentIndex(artist);
     ui->playlistTableView->setModel(model_);
 
-    if (ui->musicMenuListWidget->count() != MusicMenu::Count)
-        setSearchResultsMenuVisible(true);
-
-    ui->musicSubMenuListWidget->clear();
+    QTreeWidgetItem * const searchMenuItem = ui->playlistMenuTreeWidget->topLevelItem(SearchResults);
+    searchMenuItem->setHidden(false);
+    ui->playlistMenuTreeWidget->setCurrentItem(searchMenuItem);
 }
 
 void PlayerWidget::searchByArtist(const QString &artist)
@@ -359,65 +342,41 @@ void PlayerWidget::changeSearchType(int type)
     }
 }
 
-void PlayerWidget::on_musicMenuListWidget_clicked(const QModelIndex &index)
+void PlayerWidget::changePlaylistMenuMode()
 {
-    const int row = index.row();
+    QModelIndex const selectedIndex = ui->playlistMenuTreeWidget->selectionModel()->selectedIndexes().at(0);
+    QModelIndex const parentIndex = selectedIndex.parent();
 
-    if (row != SearchResults)
-    {
-        setSearchResultsMenuVisible(false);
-        ui->searchEdit->clear();
-    }
-
-    if (row != PopularMusic)
-    {
-        ui->musicSubMenuListWidget->clear();
-        ui->musicSubMenuListWidget->setCurrentRow(-1);
-    }
-
-    if (row != CurrentPlaylist)
+    if (!parentIndex.isValid() && parentIndex.row() != CurrentPlaylist)
         ui->playlistTableView->setModel(model_);
 
-    switch(index.row())
+    if (parentIndex.isValid())
+        api_->requestPopularPlaylistByGenre(ui->playlistMenuTreeWidget->currentItem()->text(0));
+    else
     {
-    case CurrentPlaylist:
-    {
-        stillCurrentPlaylist_ = true;
-        ui->playlistTableView->setModel(media_->model());
-        ui->playlistTableView->selectRow(media_->playlist()->currentIndex());
-        break;
-    }
-    case MyMusic:
-    {
-        api_->requestAuthUserPlaylist();
-        break;
-    }
-    case SuggestedMusic:
-    {
-        api_->requestSuggestedPlaylist();
-        break;
-    }
-    case PopularMusic:
-    {
-        fillMusicSubMenuByGenres();
-        ui->musicSubMenuListWidget->setCurrentRow(0);
-        api_->requestPopularPlaylistByGenre(ui->musicSubMenuListWidget->currentItem()->text());
-        break;
-    }
-    default: break;
-    }
-}
+        int const row = selectedIndex.row();
+        if (row != SearchResults)
+        {
+            ui->playlistMenuTreeWidget->topLevelItem(SearchResults)->setHidden(true);
+            ui->searchEdit->clear();
+        }
 
-void PlayerWidget::on_musicSubMenuListWidget_clicked(const QModelIndex &index)
-{
-    ui->musicMenuListWidget->setCurrentRow(PopularMusic);
-    api_->requestPopularPlaylistByGenre(ui->musicSubMenuListWidget->item(index.row())->text());
-}
-
-void PlayerWidget::fillMusicSubMenuByGenres()
-{
-    ui->musicSubMenuListWidget->clear();
-    ui->musicSubMenuListWidget->addItems(api_->genres().keys());
+        switch (row) {
+        case CurrentPlaylist:
+            stillCurrentPlaylist_ = true;
+            ui->playlistTableView->setModel(media_->model());
+            ui->playlistTableView->selectRow(media_->playlist()->currentIndex());
+            break;
+        case MyMusic:
+            api_->requestAuthUserPlaylist();
+            break;
+        case SuggestedMusic:
+            api_->requestSuggestedPlaylist();
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void PlayerWidget::on_clearSearchTextButton_clicked()

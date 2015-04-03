@@ -268,6 +268,12 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>45</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <family>Ubuntu Mono</family>
@@ -321,8 +327,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>22</width>
-          <height>22</height>
+          <width>30</width>
+          <height>24</height>
          </size>
         </property>
         <property name="flat">
@@ -344,8 +350,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>22</width>
-          <height>22</height>
+          <width>30</width>
+          <height>24</height>
          </size>
         </property>
         <property name="flat">
@@ -370,8 +376,8 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
         </property>
         <property name="iconSize">
          <size>
-          <width>22</width>
-          <height>22</height>
+          <width>30</width>
+          <height>24</height>
          </size>
         </property>
         <property name="flat">
@@ -392,6 +398,9 @@ border-bottom-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #BFBFBF, stop
           <width>38</width>
           <height>38</height>
          </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
          <string notr="true">border: 1px solid rgb(191, 191, 191);</string>

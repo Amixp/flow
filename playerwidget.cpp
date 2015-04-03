@@ -7,6 +7,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMediaPlaylist>
+#include <QTextDocument>
 
 static const int SYSTEM_TRAY_MESSAGE_TIMEOUT_HINT = 3000;
 static const QSize ALBUM_ART_SIZE(512, 512);
@@ -113,10 +114,13 @@ void PlayerWidget::addItem(const ApiComponent::PlaylistItem &item)
 
     QFont artistFont(ui->playlistTableView->font());
     artistFont.setBold(true);
-    QStandardItem *artistItem = new QStandardItem(item[ApiComponent::Artist]);
+    QTextDocument textDocument;
+    textDocument.setHtml(item[ApiComponent::Artist]);
+    QStandardItem *artistItem = new QStandardItem(textDocument.toPlainText());
     artistItem->setFont(artistFont);
     model_->setItem(rowCount, Artist, artistItem);
-    model_->setItem(rowCount, Title, new QStandardItem(item[ApiComponent::Title]));
+    textDocument.setHtml(item[ApiComponent::Title]);
+    model_->setItem(rowCount, Title, new QStandardItem(textDocument.toPlainText()));
     QStandardItem* durationItem = new QStandardItem(convertSecondsToTimeString(item[ApiComponent::Duration].toInt()));
     durationItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     model_->setItem(rowCount, Duration, durationItem);
@@ -126,9 +130,6 @@ void PlayerWidget::addItem(const ApiComponent::PlaylistItem &item)
 
 QString PlayerWidget::convertSecondsToTimeString(int seconds)
 {
-//    qDebug() << "Total seconds : " << seconds;
-//    qDebug() << "Time: " << seconds / 3600 << ":" << seconds / 60 << ":" << seconds % 60;
-//    QTime time(seconds/3600, seconds/60, seconds % 60);
     QString const format = seconds >= 3600 ? "hh:mm:ss" :"mm:ss";
     return QDateTime::fromTime_t(seconds).toUTC().toString(format);
 }

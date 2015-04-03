@@ -26,6 +26,11 @@ PlayerWidget::PlayerWidget(MediaComponent *media, ApiComponent *api, QWidget *pa
 
     initSystemTrayMenu();
 
+    QList<int> playlistSizes;
+    playlistSizes.append(161);
+    playlistSizes.append(size().width() - 162);
+    ui->playlistSplitter->setSizes(playlistSizes);
+
     ui->playlistMenuTreeWidget->topLevelItem(SearchResults)->setHidden(true);
     ui->playlistMenuTreeWidget->setCurrentItem(ui->playlistMenuTreeWidget->topLevelItem(MyMusic));
 
